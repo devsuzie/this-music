@@ -1,7 +1,16 @@
 import React from "react";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 
-function App() {
-  return <div>hello world</div>;
-}
+const Root = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path="*">
+          <Redirect to="/"></Redirect>
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  );
+};
 
-export default App;
+export default Root;
