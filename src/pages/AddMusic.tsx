@@ -280,7 +280,7 @@ export default () => {
             </Step2>
             <StepTitle>3. Write Something!</StepTitle>
             <Step3>
-              <TextArea cols="30" rows="10" />
+              <TextArea cols={30} rows={10} />
             </Step3>
           </StepContainer>
           <SaveButton>Save It!</SaveButton>
