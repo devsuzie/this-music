@@ -165,6 +165,10 @@ const SelectBox = styled.select`
   border-radius: 10px;
   margin-bottom: 20px;
   width: calc(80% - 40px);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: "";
 
   &:focus {
     outline: none;
@@ -182,12 +186,6 @@ const DatePicker = styled.input`
   border-radius: 10px;
   padding: 5px 20px;
   padding-right: 25px;
-  ::-ms-expand {
-    display: none;
-  }
-  ::-webkit-inner-spin-button {
-    display: none;
-  }
   ::-webkit-calendar-picker-indicator {
     background: ${theme.colors.primaryDark};
   }
