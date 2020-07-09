@@ -147,6 +147,7 @@ const MusicCardLi = styled.li`
   border-radius: 15px;
   width: calc(50% - 70px);
   display: inline-block;
+  position: relative;
 
   &:nth-child(odd) {
     margin-right: 20px;
@@ -188,6 +189,17 @@ const Date = styled.span`
 
 const MusicDesc = styled.p`
   margin-bottom: 0;
+`;
+
+const Dots = styled.span`
+  display: block;
+  width: 5px;
+  height: 27px;
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  background: url(/assets/dots.png) no-repeat;
+  background-size: 70%;
 `;
 
 const AddIcon = styled.a`
@@ -291,6 +303,7 @@ export default () => {
                   </DetailContainer>
                 </MusicInfo>
                 <MusicDesc>{music.desc}</MusicDesc>
+                <Dots />
               </MusicCardLi>
             ))}
           </MusicCardUl>
