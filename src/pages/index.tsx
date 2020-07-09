@@ -108,7 +108,7 @@ const MainContainer = styled.div`
 
 const SearchForm = styled.form``;
 
-const InpuSearch = styled.input`
+const InputSearch = styled.input`
   background-color: ${theme.colors.primaryDark};
   color: ${theme.colors.white};
   border: none;
@@ -276,7 +276,7 @@ export default () => {
         </PlayListContainer>
         <MainContainer>
           <SearchForm>
-            <InpuSearch type="text" />
+            <InputSearch type="text" />
             <Button>search</Button>
           </SearchForm>
           <MusicCardUl>
