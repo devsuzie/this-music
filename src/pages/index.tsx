@@ -193,13 +193,13 @@ const MusicDesc = styled.p`
 
 const Dots = styled.span`
   display: block;
-  width: 5px;
-  height: 27px;
+  width: 30px;
+  height: 30px;
   position: absolute;
-  right: 25px;
-  top: 25px;
-  background: url(/assets/dots.png) no-repeat;
-  background-size: 70%;
+  right: 15px;
+  top: 20px;
+  background: url(/assets/dots.png) no-repeat 50% 50%;
+  background-size: 4px 20px;
 `;
 
 const AddIcon = styled.a`
@@ -272,6 +272,11 @@ export default () => {
     },
   ];
 
+  const handleClickDots = () => {
+    console.log("clicked!");
+    return <div>hello</div>;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -303,7 +308,7 @@ export default () => {
                   </DetailContainer>
                 </MusicInfo>
                 <MusicDesc>{music.desc}</MusicDesc>
-                <Dots />
+                <Dots onClick={handleClickDots} />
               </MusicCardLi>
             ))}
           </MusicCardUl>
