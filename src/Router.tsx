@@ -1,0 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import React from "react";
+import Container from "react-bootstrap/Container";
+import { Route, Switch } from "react-router-dom";
+import styled from "@emotion/styled";
+
+import routes from "./routes";
+
+const Page = styled(Container)`
+  padding-top: ${({ theme }) => (theme as any).constants.NAV_HEIGHT};
+`;
+
+export default () => {
+  return (
+    <Switch>
+      {routes.map((route, index) => (
+        <Route exact={route.exact} key={index} path={route.path}>
+          {route.private && (
+            <Page fluid={route.fluid}>
+              <route.component />
+            </Page>
+          )}
+        </Route>
+      ))}
+    </Switch>
+  );
+};
