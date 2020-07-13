@@ -2,8 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
-import EditModal from "../Modals/EditModal";
-import { useModalStore } from "../store";
+import EditModal from "@/Modals/EditModal";
+import { useModalStore } from "@/store";
 
 interface Theme {
   colors: {
