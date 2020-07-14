@@ -25,6 +25,7 @@ export const Modal: React.FC<{
       container={document.getElementById("root")}
       onHide={handleHide}
       show={true}
+      centered
       {...restProps}
     >
       {children}
@@ -33,9 +34,7 @@ export const Modal: React.FC<{
 };
 
 export const ModalHeader = ({ children, ...restProps }: Props) => (
-  <OriginModal.Header closeButton {...restProps}>
-    {children}
-  </OriginModal.Header>
+  <OriginModal.Header {...restProps}>{children}</OriginModal.Header>
 );
 export const ModalBody = OriginModal.Body;
 export const ModalFooter = OriginModal.Footer;
