@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import Overlay from "react-bootstrap/Overlay";
+import Tooltip from "react-bootstrap/Tooltip";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
@@ -223,6 +225,9 @@ const AddIcon = styled.a`
 `;
 
 export default () => {
+  const target = useRef(null);
+  const [show, setShow] = useState(false);
+
   const { openModal } = useModalStore();
 
   const playList = [
@@ -260,27 +265,11 @@ export default () => {
       desc:
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
     },
-    {
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
-    {
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
   ];
 
   const handleClickDots = () => {
-    console.log("click");
-    openModal(<EditModal key="edit-modal" />);
+    setShow(!show);
+    // openModal(<EditModal key="edit-modal" />);
     return;
   };
 
@@ -315,7 +304,14 @@ export default () => {
                   </DetailContainer>
                 </MusicInfo>
                 <MusicDesc>{music.desc}</MusicDesc>
-                <Dots onClick={handleClickDots} />
+                <Dots ref={target} onClick={handleClickDots} />
+                <Overlay target={target.current} show={show} placement="right">
+                  {(props) => (
+                    <Tooltip id="overlay-example" {...props}>
+                      My Tooltip
+                    </Tooltip>
+                  )}
+                </Overlay>
               </MusicCardLi>
             ))}
           </MusicCardUl>
