@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
@@ -17,6 +18,13 @@ const theme = {
     avenir: "Avenir",
   },
 };
+
+const StyledLink = styled(Link)`
+  color: ${theme.colors.highlight};
+  &:hover {
+    color: ${theme.colors.highlight};
+  }
+`;
 
 const Container = styled.div`
   margin: 0 auto;
@@ -250,7 +258,9 @@ export default () => {
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Logo>this.music</Logo>
+        <Logo>
+          <StyledLink to="/">this.music</StyledLink>
+        </Logo>
 
         <AddMusicWrap>
           <StepContainer>
