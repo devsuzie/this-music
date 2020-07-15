@@ -1,6 +1,4 @@
-import React, { useRef, useState } from "react";
-import Overlay from "react-bootstrap/Overlay";
-import Tooltip from "react-bootstrap/Tooltip";
+import React from "react";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
@@ -157,6 +155,11 @@ const MusicCardLi = styled.li`
   &:nth-of-type(odd) {
     margin-right: 20px;
   }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const MusicInfo = styled.div`
@@ -196,18 +199,6 @@ const MusicDesc = styled.p`
   margin-bottom: 0;
 `;
 
-const Dots = styled.span`
-  display: block;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  right: 15px;
-  top: 20px;
-  background: url(/assets/dots.png) no-repeat 50% 50%;
-  background-size: 4px 20px;
-  cursor: pointer;
-`;
-
 const AddIcon = styled.a`
   font-family: ${theme.fonts.futura}, sans-serif;
   background-color: ${theme.colors.highlight};
@@ -225,9 +216,6 @@ const AddIcon = styled.a`
 `;
 
 export default () => {
-  const target = useRef(null);
-  const [show, setShow] = useState(false);
-
   const { openModal } = useModalStore();
 
   const playList = [
@@ -250,6 +238,7 @@ export default () => {
 
   const musics = [
     {
+      id: "1",
       singer: "King Gnu",
       title: "白日",
       date: "2020년 5월 3일",
@@ -258,6 +247,25 @@ export default () => {
         "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
     },
     {
+      id: "2",
+      singer: "King Gnu",
+      title: "白日",
+      date: "2020년 5월 3일",
+      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
+      desc:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
+    },
+    {
+      id: "3",
+      singer: "King Gnu",
+      title: "白日",
+      date: "2020년 5월 3일",
+      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
+      desc:
+        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
+    },
+    {
+      id: "4",
       singer: "King Gnu",
       title: "白日",
       date: "2020년 5월 3일",
@@ -267,10 +275,8 @@ export default () => {
     },
   ];
 
-  const handleClickDots = () => {
-    setShow(!show);
-    // openModal(<EditModal key="edit-modal" />);
-    return;
+  const handleClick = () => {
+    openModal(<EditModal key="edit-modal" />);
   };
 
   return (
@@ -294,7 +300,7 @@ export default () => {
           </SearchForm>
           <MusicCardUl>
             {musics.map((music, index) => (
-              <MusicCardLi key={index}>
+              <MusicCardLi key={index} onClick={handleClick}>
                 <MusicInfo>
                   <AlbumCover src={music.albumCover} />
                   <DetailContainer>
@@ -304,14 +310,6 @@ export default () => {
                   </DetailContainer>
                 </MusicInfo>
                 <MusicDesc>{music.desc}</MusicDesc>
-                <Dots ref={target} onClick={handleClickDots} />
-                <Overlay target={target.current} show={show} placement="right">
-                  {(props) => (
-                    <Tooltip id="overlay-example" {...props}>
-                      My Tooltip
-                    </Tooltip>
-                  )}
-                </Overlay>
               </MusicCardLi>
             ))}
           </MusicCardUl>
