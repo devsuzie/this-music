@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
@@ -199,7 +200,7 @@ const MusicDesc = styled.p`
   margin-bottom: 0;
 `;
 
-const AddIcon = styled.a`
+const AddLink = styled(Link)`
   font-family: ${theme.fonts.futura}, sans-serif;
   background-color: ${theme.colors.highlight};
   color: ${theme.colors.white};
@@ -213,6 +214,10 @@ const AddIcon = styled.a`
   top: 0;
   right: 0;
   text-decoration: none;
+
+  &:hover {
+    color: ${theme.colors.white};
+  }
 `;
 
 export default () => {
@@ -313,7 +318,7 @@ export default () => {
               </MusicCardLi>
             ))}
           </MusicCardUl>
-          <AddIcon href="/add-music">add</AddIcon>
+          <AddLink to="/add-music">add</AddLink>
         </MainContainer>
       </Container>
     </ThemeProvider>
