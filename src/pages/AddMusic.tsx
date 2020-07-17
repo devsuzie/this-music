@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
+
+import { useMusicsContext } from "@/store";
 
 const theme = {
   colors: {
@@ -102,6 +104,9 @@ const SearchedMusicUl = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
+  height: 350px;
+  overflow: scroll;
+  padding-right: 15px;
 `;
 
 const SearchedMusicLi = styled.li`
@@ -238,6 +243,14 @@ const SaveButton = styled.button`
 `;
 
 export default () => {
+  const { state, ...actions } = useMusicsContext();
+
+  useEffect(() => {
+    actions.fetchMusic();
+  }, []);
+
+  console.log(state.musics);
+
   const searchedLists = [
     {
       albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
@@ -264,19 +277,19 @@ export default () => {
 
         <AddMusicWrap>
           <StepContainer>
-            <StepTitle>1. Search the music you want to add</StepTitle>
+            <StepTitle>1. Search for music you want to add</StepTitle>
             <Step1>
               <SearchForm>
                 <InpuSearch type="text" />
                 <Button>search</Button>
               </SearchForm>
               <SearchedMusicUl>
-                {searchedLists.map((searchedList) => (
-                  <SearchedMusicLi>
+                {state.musics.map((searchedList, index) => (
+                  <SearchedMusicLi key={index}>
                     <AlbumCover src={searchedList.albumCover} />
                     <AlbumInfo>
-                      <AlbumInfoEl>{searchedList.singer}</AlbumInfoEl>
                       <AlbumInfoEl>{searchedList.title}</AlbumInfoEl>
+                      <AlbumInfoEl>{searchedList.artist}</AlbumInfoEl>
                     </AlbumInfo>
                     <SelectButton>select</SelectButton>
                   </SearchedMusicLi>
@@ -292,7 +305,7 @@ export default () => {
                   <option>option 3</option>
                 </SelectBox>
               </SelectBoxWrap>
-              <DatePicker type="date" value="2020-06-22" />
+              <DatePicker type="date" value="2020-06-22" readOnly />
             </Step2>
             <StepTitle>3. Write Something!</StepTitle>
             <Step3>
