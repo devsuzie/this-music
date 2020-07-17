@@ -37,7 +37,7 @@ interface State {
 const INITIAL_STATE: State = {
   musics: [],
   query: {
-    query: "",
+    query: "crush",
   },
 };
 
@@ -88,7 +88,7 @@ export const useMusicsContext = () => {
         searchParams: {
           query: state.query.query,
         },
-        credentials: "include",
+        credentials: "omit",
       });
       const musics = await response.json();
 
