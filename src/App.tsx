@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "emotion-theming";
 import { BrowserRouter } from "react-router-dom";
-import { ModalProvider } from "./store";
+import { ModalProvider, MusicProvider } from "./store";
 import theme from "@/theme";
 
 import Router from "@/Router";
@@ -13,9 +13,11 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ModalProvider>
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
+        <MusicProvider>
+          <BrowserRouter>
+            <Router />
+          </BrowserRouter>
+        </MusicProvider>
       </ModalProvider>
     </ThemeProvider>
   );
