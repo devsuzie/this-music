@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
+import { useForm } from "react-hook-form";
 
 import { useMusicsContext } from "@/store";
 
@@ -104,7 +105,7 @@ const SearchedMusicUl = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-  height: 350px;
+  max-height: 350px;
   overflow: scroll;
   padding-right: 15px;
 `;
@@ -128,6 +129,7 @@ const AlbumInfo = styled.p`
   margin: 0 0 0 20px;
   width: calc(100% - 180px);
   float: left;
+  padding-right: 20px;
 `;
 
 const AlbumInfoEl = styled.span`
@@ -135,6 +137,9 @@ const AlbumInfoEl = styled.span`
   display: block;
   height: 30px;
   line-height: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const SelectButton = styled.button`
@@ -242,12 +247,18 @@ const SaveButton = styled.button`
   }
 `;
 
-export default () => {
-  const { state, ...actions } = useMusicsContext();
+type FormData = {
+  music: "string";
+};
 
-  useEffect(() => {
-    actions.fetchMusic();
-  }, []);
+export default () => {
+  const [musicQuery, setMusicQuery] = useState("");
+  const { state, ...actions } = useMusicsContext();
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const onSubmit = handleSubmit(({ music = "" }) => {
+    actions.fetchMusic({ query: music });
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -260,8 +271,12 @@ export default () => {
           <StepContainer>
             <StepTitle>1. Search for music you want to add</StepTitle>
             <Step1>
-              <SearchForm>
-                <InpuSearch type="text" />
+              <SearchForm onSubmit={onSubmit}>
+                <InpuSearch
+                  type="text"
+                  name="music"
+                  ref={register({ required: true })}
+                />
                 <Button>search</Button>
               </SearchForm>
               <SearchedMusicUl>

@@ -26,7 +26,7 @@ type Action =
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
 type Query = {
-  query: string;
+  music: string;
 };
 
 interface State {
@@ -37,7 +37,7 @@ interface State {
 const INITIAL_STATE: State = {
   musics: [],
   query: {
-    query: "crush",
+    music: "",
   },
 };
 
@@ -82,24 +82,27 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 export const useMusicsContext = () => {
   const { state, dispatch } = useContext(Context);
 
-  const fetchMusic = useCallback(async () => {
-    try {
-      const response = await ky.get("http://3.34.97.67:3000/search", {
-        searchParams: {
-          query: state.query.query,
-        },
-        credentials: "omit",
-      });
-      const musics = await response.json();
+  const fetchMusic = useCallback(
+    async ({ query }) => {
+      try {
+        const response = await ky.get("http://3.34.97.67:3000/search", {
+          searchParams: {
+            query,
+          },
+          credentials: "omit",
+        });
+        const musics = await response.json();
 
-      dispatch({
-        type: ACTION_TYPES.FETCH_MUSIC,
-        musics,
-      });
-    } catch (e) {
-      throw await e.response.json();
-    }
-  }, [dispatch, state.query]);
+        dispatch({
+          type: ACTION_TYPES.FETCH_MUSIC,
+          musics,
+        });
+      } catch (e) {
+        throw await e.response.json();
+      }
+    },
+    [dispatch, state.query]
+  );
 
   const setQuery = useCallback(
     (query: { query?: string }) => {
