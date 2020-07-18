@@ -383,7 +383,12 @@ export default () => {
                     </option>
                   </SelectBox>
                 </SelectBoxWrap>
-                <DatePicker type="date" value="2020-06-22" readOnly />
+                <DatePicker
+                  id="date"
+                  name="date"
+                  type="date"
+                  value="2020-06-22"
+                />
               </Step2>
               <StepTitle>3. Write Something!</StepTitle>
               <Step3>
