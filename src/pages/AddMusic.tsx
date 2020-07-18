@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import { ThemeProvider } from "emotion-theming";
@@ -81,7 +81,7 @@ const Step1 = styled.div`
   margin-bottom: 120px;
 `;
 
-const SearchForm = styled.form``;
+const SearchContainer = styled.div``;
 
 const InpuSearch = styled.input`
   background-color: ${theme.colors.primaryDark};
@@ -253,8 +253,21 @@ const SaveButton = styled.button`
   }
 `;
 
+const Label = styled.label`
+  min-width: 450px;
+`;
+
 type FormData = {
-  music: "string";
+  music?: {
+    albumCover?: string;
+    albumId?: string;
+    artist?: string;
+    id?: string;
+    title?: string;
+  };
+  category?: string;
+  date?: any;
+  desc: string;
 };
 
 export default () => {
@@ -266,17 +279,43 @@ export default () => {
     startLoading,
   } = useLoadingStore();
 
-  const onSubmit = handleSubmit(({ music = "" }) => {
+  const [musicQuery, setMusicQuery] = useState("");
+
+  const INITIAL_STATE = {
+    albumCover: "",
+    albumId: "",
+    artist: "",
+    id: "",
+    title: "",
+  };
+  const [music, setMusic] = useState(INITIAL_STATE);
+
+  const handleChange = (e: any) => {
+    setMusicQuery(e.target.value);
+  };
+
+  const handleClickSearch = (e: any) => {
+    e.preventDefault();
     actions.clear();
     startLoading();
     actions
-      .fetchMusic({ query: music })
+      .fetchMusic({ query: musicQuery })
       .then((res) => {
         finishLoading();
       })
       .catch((error) => {
         window.alert(error.message);
       });
+  };
+
+  const onSubmit = handleSubmit(({ desc, music }) => {
+    state.musics.map((searchedList) => {
+      if (searchedList.id === music) {
+        console.log(searchedList);
+      }
+    });
+
+    console.log(music, desc);
   });
 
   return (
@@ -287,52 +326,72 @@ export default () => {
         </Logo>
 
         <AddMusicWrap>
-          <StepContainer>
-            <StepTitle>1. Search for music you want to add</StepTitle>
-            <Step1>
-              <SearchForm onSubmit={onSubmit}>
-                <InpuSearch
-                  type="text"
-                  name="music"
-                  ref={register({ required: true })}
-                />
-                <Button>search</Button>
-              </SearchForm>
-              {loadingState.loading && (
-                <SpinnerContainer>
-                  <Spinner animation="border" variant="light" />
-                </SpinnerContainer>
-              )}
-              <SearchedMusicUl>
-                {state.musics.map((searchedList, index) => (
-                  <SearchedMusicLi key={index}>
-                    <AlbumCover src={searchedList.albumCover} />
-                    <AlbumInfo>
-                      <AlbumInfoEl>{searchedList.title}</AlbumInfoEl>
-                      <AlbumInfoEl>{searchedList.artist}</AlbumInfoEl>
-                    </AlbumInfo>
-                    <SelectButton>select</SelectButton>
-                  </SearchedMusicLi>
-                ))}
-              </SearchedMusicUl>
-            </Step1>
-            <StepTitle>2. Sélect a Category & Date</StepTitle>
-            <Step2>
-              <SelectBoxWrap>
-                <SelectBox>
-                  <option>option 1</option>
-                  <option>option 2</option>
-                  <option>option 3</option>
-                </SelectBox>
-              </SelectBoxWrap>
-              <DatePicker type="date" value="2020-06-22" readOnly />
-            </Step2>
-            <StepTitle>3. Write Something!</StepTitle>
-            <Step3>
-              <TextArea cols={30} rows={10} />
-            </Step3>
-          </StepContainer>
-          <SaveButton>Save It!</SaveButton>
+          <form onSubmit={onSubmit}>
+            <StepContainer>
+              <StepTitle>1. Search for music you want to add</StepTitle>
+              <Step1>
+                <SearchContainer>
+                  <InpuSearch
+                    type="text"
+                    onChange={handleChange}
+                    value={musicQuery}
+                  />
+                  <Button onClick={handleClickSearch}>search</Button>
+                </SearchContainer>
+                {loadingState.loading && (
+                  <SpinnerContainer>
+                    <Spinner animation="border" variant="light" />
+                  </SpinnerContainer>
+                )}
+                <SearchedMusicUl>
+                  {state.musics.map((searchedList) => (
+                    <SearchedMusicLi key={searchedList.id}>
+                      <Label htmlFor={searchedList.id}>
+                        <AlbumCover src={searchedList.albumCover} />
+                        <AlbumInfo>
+                          <AlbumInfoEl>{searchedList.title}</AlbumInfoEl>
+                          <AlbumInfoEl>{searchedList.artist}</AlbumInfoEl>
+                        </AlbumInfo>
+                      </Label>
+                      <input
+                        type="radio"
+                        id={searchedList.id}
+                        name="music"
+                        ref={register}
+                        value={searchedList.id}
+                      ></input>
+
+                      {/* <SelectButton onClick={clickMusicSelect}>
+                        select
+                      </SelectButton> */}
+                    </SearchedMusicLi>
+                  ))}
+                </SearchedMusicUl>
+              </Step1>
+              <StepTitle>2. Sélect a Category & Date</StepTitle>
+              <Step2>
+                <SelectBoxWrap>
+                  <SelectBox>
+                    <option value="1" ref={register}>
+                      option 1
+                    </option>
+                    <option value="2" ref={register}>
+                      option 2
+                    </option>
+                    <option value="3" ref={register}>
+                      option 3
+                    </option>
+                  </SelectBox>
+                </SelectBoxWrap>
+                <DatePicker type="date" value="2020-06-22" readOnly />
+              </Step2>
+              <StepTitle>3. Write Something!</StepTitle>
+              <Step3>
+                <TextArea cols={30} rows={10} name="desc" ref={register} />
+              </Step3>
+            </StepContainer>
+            <SaveButton type="submit">Save It!</SaveButton>
+          </form>
         </AddMusicWrap>
       </Container>
     </ThemeProvider>
