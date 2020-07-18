@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "@emotion/styled";
+import Spinner from "react-bootstrap/Spinner";
 import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
+import styled from "@emotion/styled";
 
 import { useLoadingStore, useMusicsContext } from "@/store";
 
@@ -27,6 +28,11 @@ const StyledLink = styled(Link)`
   &:hover {
     color: ${theme.colors.highlight};
   }
+`;
+
+const SpinnerContainer = styled.div`
+  text-align: center;
+  margin: 20px 0;
 `;
 
 const Container = styled.div`
@@ -254,9 +260,14 @@ type FormData = {
 export default () => {
   const { state, ...actions } = useMusicsContext();
   const { register, handleSubmit } = useForm<FormData>();
-  const { finishLoading, startLoading } = useLoadingStore();
+  const {
+    state: loadingState,
+    finishLoading,
+    startLoading,
+  } = useLoadingStore();
 
   const onSubmit = handleSubmit(({ music = "" }) => {
+    actions.clear();
     startLoading();
     actions.fetchMusic({ query: music }).then((res) => {
       finishLoading();
@@ -282,6 +293,11 @@ export default () => {
                 />
                 <Button>search</Button>
               </SearchForm>
+              {loadingState.loading && (
+                <SpinnerContainer>
+                  <Spinner animation="border" variant="light" />
+                </SpinnerContainer>
+              )}
               <SearchedMusicUl>
                 {state.musics.map((searchedList, index) => (
                   <SearchedMusicLi key={index}>
