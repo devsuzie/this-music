@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
@@ -252,7 +252,6 @@ type FormData = {
 };
 
 export default () => {
-  const [musicQuery, setMusicQuery] = useState("");
   const { state, ...actions } = useMusicsContext();
   const { register, handleSubmit } = useForm<FormData>();
 

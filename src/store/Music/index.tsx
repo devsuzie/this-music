@@ -101,7 +101,7 @@ export const useMusicsContext = () => {
         throw await e.response.json();
       }
     },
-    [dispatch, state.query]
+    [dispatch]
   );
 
   const setQuery = useCallback(
