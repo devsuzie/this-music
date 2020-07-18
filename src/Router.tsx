@@ -50,7 +50,7 @@ export default () => {
 
       {loadingState.loading && (
         <LoadingBackdrop>
-          <Spinner animation="border" variant="light" />
+          <Spinner animation="grow" />
         </LoadingBackdrop>
       )}
     </>

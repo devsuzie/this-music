@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
 
-import { useMusicsContext } from "@/store";
+import { useLoadingStore, useMusicsContext } from "@/store";
 
 const theme = {
   colors: {
@@ -254,9 +254,13 @@ type FormData = {
 export default () => {
   const { state, ...actions } = useMusicsContext();
   const { register, handleSubmit } = useForm<FormData>();
+  const { finishLoading, startLoading } = useLoadingStore();
 
   const onSubmit = handleSubmit(({ music = "" }) => {
-    actions.fetchMusic({ query: music });
+    startLoading();
+    actions.fetchMusic({ query: music }).then((res) => {
+      finishLoading();
+    });
   });
 
   return (

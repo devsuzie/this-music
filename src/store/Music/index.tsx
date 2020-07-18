@@ -17,11 +17,13 @@ export type MusicsResponse = {
 };
 
 enum ACTION_TYPES {
+  CLEAR = "CLEAR",
   FETCH_MUSIC = "FETCH_MUSIC",
   SET_QUERY = "SET_QUERY",
 }
 
 type Action =
+  | { type: ACTION_TYPES.CLEAR }
   | { type: ACTION_TYPES.FETCH_MUSIC; musics: MusicsResponse[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
@@ -46,6 +48,8 @@ const reducer: Reducer<State, Action> = (
   action: Action
 ): State => {
   switch (action.type) {
+    case ACTION_TYPES.CLEAR:
+      return INITIAL_STATE;
     case ACTION_TYPES.FETCH_MUSIC:
       return {
         ...prevState,
@@ -81,6 +85,12 @@ export const Provider = ({ children }: { children: ReactNode }) => {
 
 export const useMusicsContext = () => {
   const { state, dispatch } = useContext(Context);
+
+  const clear = useCallback(() => {
+    dispatch({
+      type: ACTION_TYPES.CLEAR,
+    });
+  }, [dispatch]);
 
   const fetchMusic = useCallback(
     async ({ query }) => {
@@ -123,6 +133,7 @@ export const useMusicsContext = () => {
 
   return {
     state,
+    clear,
     fetchMusic,
     setQuery,
   };
