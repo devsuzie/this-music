@@ -309,23 +309,28 @@ export default () => {
       });
   };
 
-  const onSubmit = handleSubmit(({ desc, music, date }) => {
+  const onSubmit = handleSubmit(({ desc, music, date, category }) => {
     state.musics.map((searchedList) => {
       if (searchedList.id === music) {
         console.log(searchedList);
       }
     });
 
-    console.log(music, date, desc);
+    console.log(music, date, desc, category);
   });
 
   const zonedDateToday = getDateByTimeZone();
   const dateValue = formatDate(zonedDateToday);
 
   const [dateQuery, setDateQuery] = useState(dateValue);
+  const [categoryQuery, setCategoryQuery] = useState(dateValue);
 
   const handleChangeDate = (e: any) => {
     setDateQuery(e.target.value);
+  };
+
+  const handleChangeCategory = (e: any) => {
+    setCategoryQuery(e.target.value);
   };
 
   return (
@@ -381,16 +386,15 @@ export default () => {
               <StepTitle>2. Sélect a Category & Date</StepTitle>
               <Step2>
                 <SelectBoxWrap>
-                  <SelectBox>
-                    <option value="1" ref={register}>
-                      option 1
-                    </option>
-                    <option value="2" ref={register}>
-                      option 2
-                    </option>
-                    <option value="3" ref={register}>
-                      option 3
-                    </option>
+                  <SelectBox
+                    onChange={handleChangeCategory}
+                    value={categoryQuery}
+                    ref={register}
+                    name="category"
+                  >
+                    <option value="1">option 1</option>
+                    <option value="2">option 2</option>
+                    <option value="3">option 3</option>
                   </SelectBox>
                 </SelectBoxWrap>
                 <DatePicker
