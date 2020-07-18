@@ -249,25 +249,6 @@ export default () => {
     actions.fetchMusic();
   }, []);
 
-  console.log(state.musics);
-
-  const searchedLists = [
-    {
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      singer: "King Gnu",
-      title: "白日",
-    },
-    {
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      singer: "King Gnu",
-      title: "白日",
-    },
-    {
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      singer: "King Gnu",
-      title: "白日",
-    },
-  ];
   return (
     <ThemeProvider theme={theme}>
       <Container>
