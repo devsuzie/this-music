@@ -269,9 +269,14 @@ export default () => {
   const onSubmit = handleSubmit(({ music = "" }) => {
     actions.clear();
     startLoading();
-    actions.fetchMusic({ query: music }).then((res) => {
-      finishLoading();
-    });
+    actions
+      .fetchMusic({ query: music })
+      .then((res) => {
+        finishLoading();
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
   });
 
   return (
