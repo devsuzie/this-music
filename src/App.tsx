@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "emotion-theming";
 import { BrowserRouter } from "react-router-dom";
-import { ModalProvider, MusicProvider } from "./store";
+import { LoadingProvider, ModalProvider, MusicProvider } from "./store";
 import theme from "@/theme";
 
 import Router from "@/Router";
@@ -12,13 +12,15 @@ import "@/theme/bootstrap.css";
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <ModalProvider>
-        <MusicProvider>
-          <BrowserRouter>
-            <Router />
-          </BrowserRouter>
-        </MusicProvider>
-      </ModalProvider>
+      <LoadingProvider>
+        <ModalProvider>
+          <MusicProvider>
+            <BrowserRouter>
+              <Router />
+            </BrowserRouter>
+          </MusicProvider>
+        </ModalProvider>
+      </LoadingProvider>
     </ThemeProvider>
   );
 }
