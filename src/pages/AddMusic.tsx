@@ -5,6 +5,7 @@ import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
+import { formatDate, getDateByTimeZone } from "@/lib/date";
 import { useLoadingStore, useMusicsContext } from "@/store";
 
 const theme = {
@@ -308,15 +309,24 @@ export default () => {
       });
   };
 
-  const onSubmit = handleSubmit(({ desc, music }) => {
+  const onSubmit = handleSubmit(({ desc, music, date }) => {
     state.musics.map((searchedList) => {
       if (searchedList.id === music) {
         console.log(searchedList);
       }
     });
 
-    console.log(music, desc);
+    console.log(music, date, desc);
   });
+
+  const zonedDateToday = getDateByTimeZone();
+  const dateValue = formatDate(zonedDateToday);
+
+  const [dateQuery, setDateQuery] = useState(dateValue);
+
+  const handleChangeDate = (e: any) => {
+    setDateQuery(e.target.value);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -386,8 +396,10 @@ export default () => {
                 <DatePicker
                   id="date"
                   name="date"
+                  onChange={handleChangeDate}
                   type="date"
-                  value="2020-06-22"
+                  value={dateQuery}
+                  ref={register}
                 />
               </Step2>
               <StepTitle>3. Write Something!</StepTitle>
