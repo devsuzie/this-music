@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
@@ -134,7 +135,7 @@ const AlbumInfo = styled.p`
   display: inline-block;
   height: 60px;
   margin: 0 0 0 20px;
-  width: calc(100% - 180px);
+  width: calc(100% - 175px);
   float: left;
   padding-right: 20px;
 `;
@@ -149,26 +150,9 @@ const AlbumInfoEl = styled.span`
   white-space: nowrap;
 `;
 
-const SelectButton = styled.button`
-  display: inline-block;
-  color: ${theme.colors.highlight};
-  border: none;
-  background: none;
-  font-size: 16px;
-  padding: 0 20px;
-  border: 1px solid ${theme.colors.highlight};
-  border-radius: 30px;
-  height: 30px;
-  line-height: 30px;
-  margin: 15px 0;
-  width: 100px;
-  float: left;
+const SelectInput = styled.input``;
 
-  &:hover {
-    background-color: ${theme.colors.highlight};
-    color: ${theme.colors.white};
-  }
-`;
+let SelectButton = styled.span``;
 
 const Step2 = styled.div`
   margin-bottom: 120px;
@@ -255,7 +239,8 @@ const SaveButton = styled.button`
 `;
 
 const Label = styled.label`
-  min-width: 450px;
+  position: relative;
+  width: 100%;
 `;
 
 type FormData = {
@@ -341,7 +326,7 @@ export default () => {
         </Logo>
 
         <AddMusicWrap>
-          <form onSubmit={onSubmit}>
+          <Form onSubmit={onSubmit}>
             <StepContainer>
               <StepTitle>1. Search for music you want to add</StepTitle>
               <Step1>
@@ -367,18 +352,17 @@ export default () => {
                           <AlbumInfoEl>{searchedList.title}</AlbumInfoEl>
                           <AlbumInfoEl>{searchedList.artist}</AlbumInfoEl>
                         </AlbumInfo>
+                        <SelectInput
+                          type="radio"
+                          id={searchedList.id}
+                          name="music"
+                          ref={register}
+                          value={searchedList.id}
+                        ></SelectInput>
+                        <SelectButton className="checkmark">
+                          select
+                        </SelectButton>
                       </Label>
-                      <input
-                        type="radio"
-                        id={searchedList.id}
-                        name="music"
-                        ref={register}
-                        value={searchedList.id}
-                      ></input>
-
-                      {/* <SelectButton onClick={clickMusicSelect}>
-                        select
-                      </SelectButton> */}
                     </SearchedMusicLi>
                   ))}
                 </SearchedMusicUl>
@@ -412,7 +396,7 @@ export default () => {
               </Step3>
             </StepContainer>
             <SaveButton type="submit">Save It!</SaveButton>
-          </form>
+          </Form>
         </AddMusicWrap>
       </Container>
     </ThemeProvider>

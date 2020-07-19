@@ -6,3 +6,28 @@
     background: none;
     border: none;
 }
+
+input[type=radio]+.checkmark {
+    display: inline-block;
+    color: #1300FF;
+    background: none;
+    font-size: 16px;
+    padding: 0 20px;
+    border: 1px solid #1300FF;
+    border-radius: 30px;
+    height: 30px;
+    line-height: 30px;
+    margin: 15px 0;
+    width: 95px;
+    cursor: pointer;
+    text-align: center;
+}
+
+input[type=radio]:checked+.checkmark {
+    background-color: #1300FF;
+    color: #ffffff;
+}
+
+input[type=radio] {
+    display: none;
+}
