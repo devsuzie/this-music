@@ -111,16 +111,16 @@ const DatePicker = styled.input`
   color: ${theme.colors.white};
   font-size: 16px;
   font-family: ${theme.fonts.avenir}, sans-serif;
-  background: url(/assets/down-arrow.png) no-repeat 95% 60%;
-  background-size: 16px 13px;
   background-color: ${theme.colors.primaryDark};
   border: none;
   border-radius: 10px;
   padding: 5px 20px;
-  padding-right: 25px;
   margin-bottom: 20px;
+
   ::-webkit-calendar-picker-indicator {
     background: ${theme.colors.primaryDark};
+    background: url(/assets/down-arrow.png) no-repeat 95% 60%;
+    background-size: 16px 13px;
   }
 `;
 
