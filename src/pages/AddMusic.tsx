@@ -258,7 +258,7 @@ type FormData = {
 
 export default () => {
   const { state, ...actions } = useMusicsContext();
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, handleSubmit, setValue } = useForm<FormData>();
   const {
     state: loadingState,
     finishLoading,
@@ -376,10 +376,15 @@ export default () => {
                     ref={register}
                     name="category"
                   >
-                    <option value="1">option 1</option>
-                    <option value="2">option 2</option>
-                    <option value="3">option 3</option>
+                    <option value="0">select category</option>
+                    <option value="like">좋아하는 노래</option>
+                    <option value="rain">비오는 날 듣는 노래</option>
+                    <option value="fun">신나는 노래</option>
+                    <option value="book">책 읽을 때 듣는 노래</option>
                   </SelectBox>
+                  <span onClick={() => setValue("category", "fun")}>
+                    setting
+                  </span>
                 </SelectBoxWrap>
                 <DatePicker
                   id="date"
