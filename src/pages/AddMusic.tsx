@@ -6,8 +6,9 @@ import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
+import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
-import { useLoadingStore, useMusicsContext } from "@/store";
+import { useLoadingStore, useModalStore, useMusicsContext } from "@/store";
 
 const theme = {
   colors: {
@@ -291,18 +292,24 @@ const AddOption = styled.div`
 `;
 
 const SelectOption = () => {
+  const { openModal } = useModalStore();
+
+  const handleClick = () => {
+    openModal(<CreatePlaylistModal key="create-playlist-modal" />);
+  };
+
   return (
     <OptionContainer>
       <Option>비올 때 듣는 비 노래</Option>
       <Option>여자 아이돌 노래</Option>
-      <AddOption>Add playlist</AddOption>
+      <AddOption onClick={handleClick}>Add playlist</AddOption>
     </OptionContainer>
   );
 };
 
 export default () => {
   const { state, ...actions } = useMusicsContext();
-  const { register, handleSubmit, setValue } = useForm<FormData>();
+  const { register, handleSubmit } = useForm<FormData>();
   const {
     state: loadingState,
     finishLoading,
@@ -318,7 +325,6 @@ export default () => {
     id: "",
     title: "",
   };
-  const [music, setMusic] = useState(INITIAL_STATE);
 
   const handleChange = (e: any) => {
     setMusicQuery(e.target.value);
