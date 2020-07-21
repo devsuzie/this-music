@@ -162,7 +162,7 @@ const SelectBoxWrap = styled.div`
   position: relative;
 `;
 
-const SelectBox = styled.select`
+const SelectBox = styled.div`
   border: none;
   background: url(/assets/down-arrow.png) no-repeat 95% 60%;
   background-size: 16px 13px;
@@ -174,14 +174,9 @@ const SelectBox = styled.select`
   border-radius: 10px;
   margin-bottom: 20px;
   width: calc(80% - 40px);
-  -webkit-appearance: none;
-  -moz-appearance: none;
   text-indent: 1px;
   text-overflow: "";
-
-  &:focus {
-    outline: none;
-  }
+  cursor: pointer;
 `;
 
 const DatePicker = styled.input`
@@ -256,6 +251,55 @@ type FormData = {
   desc: string;
 };
 
+const OptionContainer = styled.div`
+  background-color: #f2efef;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  padding-top: 15px;
+  top: 45px;
+  width: calc(80% - 40px);
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const Option = styled.div`
+  color: ${theme.colors.black};
+  height: 40px;
+  line-height: 40px;
+  padding: 0 30px;
+
+  &: hover {
+    color: ${theme.colors.active};
+  }
+`;
+
+const AddOption = styled.div`
+  color: ${theme.colors.black};
+  height: 60px;
+  line-height: 60px;
+  border-top: 1px solid ${theme.colors.active};
+  padding: 0 30px;
+  padding-left: 60px;
+  background: url(/assets/add-btn.png) no-repeat 5% 60%;
+  background-size: 35px 35px;
+  border-radius: 0 0 10px 10px;
+  margin-top: 10px;
+
+  &: hover {
+    background-color: ${theme.colors.white};
+  }
+`;
+
+const SelectOption = () => {
+  return (
+    <OptionContainer>
+      <Option>비올 때 듣는 비 노래</Option>
+      <Option>여자 아이돌 노래</Option>
+      <AddOption>Add playlist</AddOption>
+    </OptionContainer>
+  );
+};
+
 export default () => {
   const { state, ...actions } = useMusicsContext();
   const { register, handleSubmit, setValue } = useForm<FormData>();
@@ -308,14 +352,15 @@ export default () => {
   const dateValue = formatDate(zonedDateToday);
 
   const [dateQuery, setDateQuery] = useState(dateValue);
-  const [categoryQuery, setCategoryQuery] = useState(dateValue);
 
   const handleChangeDate = (e: any) => {
     setDateQuery(e.target.value);
   };
 
-  const handleChangeCategory = (e: any) => {
-    setCategoryQuery(e.target.value);
+  const [open, setOpen] = useState(false);
+
+  const handleClickSelectBox = () => {
+    setOpen(!open);
   };
 
   return (
@@ -370,21 +415,10 @@ export default () => {
               <StepTitle>2. Sélect a Category & Date</StepTitle>
               <Step2>
                 <SelectBoxWrap>
-                  <SelectBox
-                    onChange={handleChangeCategory}
-                    value={categoryQuery}
-                    ref={register}
-                    name="category"
-                  >
-                    <option value="0">select category</option>
-                    <option value="like">좋아하는 노래</option>
-                    <option value="rain">비오는 날 듣는 노래</option>
-                    <option value="fun">신나는 노래</option>
-                    <option value="book">책 읽을 때 듣는 노래</option>
+                  <SelectBox onClick={handleClickSelectBox}>
+                    select play list
                   </SelectBox>
-                  <span onClick={() => setValue("category", "fun")}>
-                    setting
-                  </span>
+                  {open && <SelectOption />}
                 </SelectBoxWrap>
                 <DatePicker
                   id="date"
