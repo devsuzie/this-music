@@ -1,6 +1,5 @@
 import Home from "./pages/Home";
 import AddMusic from "./pages/AddMusic";
-import Playground from "./pages/playground";
 
 export default [
   {
@@ -19,15 +18,6 @@ export default [
     name: "Home",
     nav: true,
     path: "/",
-    private: true,
-  },
-  {
-    component: Playground,
-    exact: true,
-    fluid: true,
-    name: "playground",
-    nav: true,
-    path: "/playground",
     private: true,
   },
 ];
