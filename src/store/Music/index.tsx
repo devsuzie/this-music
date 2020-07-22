@@ -18,12 +18,14 @@ export type MusicsResponse = {
 
 enum ACTION_TYPES {
   CLEAR = "CLEAR",
+  CREATE_PLAYLIST = "CREATE_PLAYLIST",
   FETCH_MUSIC = "FETCH_MUSIC",
   SET_QUERY = "SET_QUERY",
 }
 
 type Action =
   | { type: ACTION_TYPES.CLEAR }
+  | { type: ACTION_TYPES.CREATE_PLAYLIST }
   | { type: ACTION_TYPES.FETCH_MUSIC; musics: MusicsResponse[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
@@ -50,6 +52,10 @@ const reducer: Reducer<State, Action> = (
   switch (action.type) {
     case ACTION_TYPES.CLEAR:
       return INITIAL_STATE;
+    case ACTION_TYPES.CREATE_PLAYLIST:
+      return {
+        ...prevState,
+      };
     case ACTION_TYPES.FETCH_MUSIC:
       return {
         ...prevState,
@@ -91,6 +97,10 @@ export const useMusicsContext = () => {
       type: ACTION_TYPES.CLEAR,
     });
   }, [dispatch]);
+
+  const createPlaylist = useCallback((playlist) => {
+    return localStorage.setItem("playlist", playlist);
+  }, []);
 
   const fetchMusic = useCallback(
     async ({ query }) => {
@@ -134,6 +144,7 @@ export const useMusicsContext = () => {
   return {
     state,
     clear,
+    createPlaylist,
     fetchMusic,
     setQuery,
   };

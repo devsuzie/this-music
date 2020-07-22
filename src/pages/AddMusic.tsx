@@ -422,7 +422,7 @@ export default () => {
               <Step2>
                 <SelectBoxWrap>
                   <SelectBox onClick={handleClickSelectBox}>
-                    select play list
+                    select category
                   </SelectBox>
                   {open && <SelectOption />}
                 </SelectBoxWrap>

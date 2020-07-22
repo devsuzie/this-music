@@ -1,8 +1,14 @@
 import React from "react";
+import Form from "react-bootstrap/Form";
+import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
 import { ModalBody, ModalHeader, Modal } from "../components/Modal";
-import { useModalStore } from "../store";
+import { useModalStore, useMusicsContext } from "../store";
+
+type FormData = {
+  playlist: string;
+};
 
 const theme = {
   colors: {
@@ -91,10 +97,17 @@ const Button = styled.button`
 
 export default () => {
   const { closeModal } = useModalStore();
+  const { state, ...actions } = useMusicsContext();
+  const { register, handleSubmit } = useForm<FormData>();
 
   function handleClose() {
     closeModal();
   }
+
+  const onSubmit = handleSubmit(({ playlist }) => {
+    actions.createPlaylist(playlist);
+    closeModal();
+  });
 
   return (
     <StyledModal>
@@ -102,8 +115,15 @@ export default () => {
         <Title>Create new playlist</Title>
       </StyledModalHeader>
       <StyledModalBody>
-        <Input type="text" placeholder="new playlist" />
-        <Button type="submit">Save It</Button>
+        <Form onSubmit={onSubmit}>
+          <Input
+            type="text"
+            placeholder="new playlist"
+            name="playlist"
+            ref={register({ required: true })}
+          />
+          <Button type="submit">Save It</Button>
+        </Form>
       </StyledModalBody>
       <CloseButton onClick={handleClose}>닫기</CloseButton>
     </StyledModal>
