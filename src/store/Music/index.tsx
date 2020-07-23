@@ -16,10 +16,16 @@ export type MusicsResponse = {
   albumCover: string;
 };
 
+export type Playlists = {
+  id: string;
+  playlist: string;
+};
+
 enum ACTION_TYPES {
   CLEAR = "CLEAR",
   CREATE_PLAYLIST = "CREATE_PLAYLIST",
   FETCH_MUSIC = "FETCH_MUSIC",
+  FETCH_PLAYLISTS = "FETCH_PLAYLISTS",
   SET_QUERY = "SET_QUERY",
 }
 
@@ -27,6 +33,7 @@ type Action =
   | { type: ACTION_TYPES.CLEAR }
   | { type: ACTION_TYPES.CREATE_PLAYLIST }
   | { type: ACTION_TYPES.FETCH_MUSIC; musics: MusicsResponse[] }
+  | { type: ACTION_TYPES.FETCH_PLAYLISTS; playlists: Playlists[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
 type Query = {
@@ -35,11 +42,13 @@ type Query = {
 
 interface State {
   musics: MusicsResponse[];
+  playlists: Playlists[];
   query: Query;
 }
 
 const INITIAL_STATE: State = {
   musics: [],
+  playlists: [],
   query: {
     music: "",
   },
@@ -60,6 +69,11 @@ const reducer: Reducer<State, Action> = (
       return {
         ...prevState,
         musics: action.musics,
+      };
+    case ACTION_TYPES.FETCH_PLAYLISTS:
+      return {
+        ...prevState,
+        playlists: action.playlists,
       };
     case ACTION_TYPES.SET_QUERY:
       return {
@@ -103,14 +117,19 @@ export const useMusicsContext = () => {
   }, []);
 
   const fetchPlaylists = useCallback(() => {
-    const playlistJSON = localStorage.getItem("playlist");
-
     try {
-      return playlistJSON ? JSON.parse(playlistJSON) : [];
+      const response = localStorage.getItem("playlist");
+      const playlists = response && JSON.parse(response);
+      console.log(playlists);
+
+      dispatch({
+        type: ACTION_TYPES.FETCH_PLAYLISTS,
+        playlists,
+      });
     } catch (e) {
-      return [];
+      throw e;
     }
-  }, []);
+  }, [dispatch]);
 
   const fetchMusic = useCallback(
     async ({ query }) => {

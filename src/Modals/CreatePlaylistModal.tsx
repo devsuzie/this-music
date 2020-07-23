@@ -106,11 +106,8 @@ export default () => {
   }
 
   const onSubmit = handleSubmit(({ playlist }) => {
-    const playlists = actions.fetchPlaylists();
-    playlists.push({ playlist, id: uuidv4() });
-
-    actions.createPlaylist(playlists);
-    closeModal();
+    console.log(actions.fetchPlaylists());
+    console.log(state.playlists);
   });
 
   return (
