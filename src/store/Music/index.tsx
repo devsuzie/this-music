@@ -117,19 +117,14 @@ export const useMusicsContext = () => {
   }, []);
 
   const fetchPlaylists = useCallback(() => {
-    try {
-      const response = localStorage.getItem("playlist");
-      const playlists = response && JSON.parse(response);
-      console.log(playlists);
+    const playlistJSON = localStorage.getItem("playlist");
 
-      dispatch({
-        type: ACTION_TYPES.FETCH_PLAYLISTS,
-        playlists,
-      });
+    try {
+      return playlistJSON ? JSON.parse(playlistJSON) : [];
     } catch (e) {
-      throw e;
+      return [];
     }
-  }, [dispatch]);
+  }, []);
 
   const fetchMusic = useCallback(
     async ({ query }) => {
