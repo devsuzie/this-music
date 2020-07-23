@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
+import { v4 as uuidv4 } from "uuid";
 
 import { ModalBody, ModalHeader, Modal } from "../components/Modal";
 import { useModalStore, useMusicsContext } from "../store";
@@ -106,7 +107,7 @@ export default () => {
 
   const onSubmit = handleSubmit(({ playlist }) => {
     const playlists = actions.fetchPlaylists();
-    playlists.push({ playlist });
+    playlists.push({ playlist, id: uuidv4() });
 
     actions.createPlaylist(playlists);
     closeModal();
