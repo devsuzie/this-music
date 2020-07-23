@@ -99,7 +99,17 @@ export const useMusicsContext = () => {
   }, [dispatch]);
 
   const createPlaylist = useCallback((playlist) => {
-    return localStorage.setItem("playlist", playlist);
+    return localStorage.setItem("playlist", JSON.stringify(playlist));
+  }, []);
+
+  const fetchPlaylists = useCallback(() => {
+    const playlistJSON = localStorage.getItem("playlist");
+
+    try {
+      return playlistJSON ? JSON.parse(playlistJSON) : [];
+    } catch (e) {
+      return [];
+    }
   }, []);
 
   const fetchMusic = useCallback(
@@ -146,6 +156,7 @@ export const useMusicsContext = () => {
     clear,
     createPlaylist,
     fetchMusic,
+    fetchPlaylists,
     setQuery,
   };
 };
