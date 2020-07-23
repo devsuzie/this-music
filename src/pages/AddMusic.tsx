@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
@@ -315,6 +315,11 @@ export default () => {
     finishLoading,
     startLoading,
   } = useLoadingStore();
+
+  useEffect(() => {
+    actions.fetchPlaylists();
+    console.log(state.playlists);
+  }, []);
 
   const [musicQuery, setMusicQuery] = useState("");
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
@@ -105,10 +105,15 @@ export default () => {
     closeModal();
   }
 
-  const onSubmit = handleSubmit(({ playlist }) => {
-    const playlists = actions.fetchPlaylists();
-    playlists.push({ playlist, id: uuidv4() });
+  useEffect(() => {
+    actions.fetchPlaylists();
+  }, []);
 
+  const onSubmit = handleSubmit(({ playlist }) => {
+    const playlists = {
+      id: uuidv4(),
+      playlist,
+    };
     actions.createPlaylist(playlists);
     closeModal();
   });

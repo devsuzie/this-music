@@ -113,18 +113,26 @@ export const useMusicsContext = () => {
   }, [dispatch]);
 
   const createPlaylist = useCallback((playlist) => {
-    return localStorage.setItem("playlist", JSON.stringify(playlist));
+    const response = localStorage.getItem("playlist");
+    const playlists = response ? JSON.parse(response) : [];
+    playlists.push(playlist);
+
+    return localStorage.setItem("playlist", JSON.stringify(playlists));
   }, []);
 
   const fetchPlaylists = useCallback(() => {
-    const playlistJSON = localStorage.getItem("playlist");
-
     try {
-      return playlistJSON ? JSON.parse(playlistJSON) : [];
+      const response = localStorage.getItem("playlist");
+      const playlists = response && JSON.parse(response);
+
+      dispatch({
+        type: ACTION_TYPES.FETCH_PLAYLISTS,
+        playlists,
+      });
     } catch (e) {
-      return [];
+      throw e;
     }
-  }, []);
+  }, [dispatch]);
 
   const fetchMusic = useCallback(
     async ({ query }) => {
