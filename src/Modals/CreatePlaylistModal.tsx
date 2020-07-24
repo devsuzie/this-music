@@ -116,6 +116,7 @@ export default () => {
     };
     actions.createPlaylist(playlists);
     closeModal();
+    actions.fetchPlaylists();
   });
 
   return (

@@ -292,6 +292,7 @@ const AddOption = styled.div`
 `;
 
 const SelectOption = () => {
+  const { state } = useMusicsContext();
   const { openModal } = useModalStore();
 
   const handleClick = () => {
@@ -300,8 +301,9 @@ const SelectOption = () => {
 
   return (
     <OptionContainer>
-      <Option>비올 때 듣는 비 노래</Option>
-      <Option>여자 아이돌 노래</Option>
+      <Option>카테고리 선택안함</Option>
+      {state.playlists &&
+        state.playlists.map((p) => <Option key={p.id}>{p.playlist}</Option>)}
       <AddOption onClick={handleClick}>Add playlist</AddOption>
     </OptionContainer>
   );
@@ -316,9 +318,10 @@ export default () => {
     startLoading,
   } = useLoadingStore();
 
+  console.log(state.playlists);
+
   useEffect(() => {
     actions.fetchPlaylists();
-    console.log(state.playlists);
   }, []);
 
   const [musicQuery, setMusicQuery] = useState("");
