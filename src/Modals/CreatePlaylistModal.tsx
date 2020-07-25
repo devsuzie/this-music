@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 
 import { ModalBody, ModalHeader, Modal } from "../components/Modal";
-import { useModalStore, useMusicsContext, usePlaylistsContext } from "../store";
+import { useModalStore, usePlaylistsContext } from "../store";
 
 type FormData = {
   playlist: string;

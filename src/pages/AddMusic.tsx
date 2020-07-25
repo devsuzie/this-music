@@ -11,7 +11,7 @@ import { formatDate, getDateByTimeZone } from "@/lib/date";
 import {
   useLoadingStore,
   useModalStore,
-  useMusicsContext,
+  useSearchMusicContext,
   usePlaylistsContext,
 } from "@/store";
 
@@ -296,26 +296,8 @@ const AddOption = styled.div`
   }
 `;
 
-// const SelectOption = () => {
-//   const { state } = useMusicsContext();
-//   const { openModal } = useModalStore();
-
-//   const handleClickAddOption = () => {
-//     openModal(<CreatePlaylistModal key="create-playlist-modal" />);
-//   };
-
-//   return (
-//     <OptionContainer>
-//       <Option>카테고리 선택안함</Option>
-//       {state.playlists &&
-//         state.playlists.map((p) => <Option key={p.id}>{p.playlist}</Option>)}
-//       <AddOption onClick={handleClickAddOption}>Add playlist</AddOption>
-//     </OptionContainer>
-//   );
-// };
-
 export default () => {
-  const { state, ...actions } = useMusicsContext();
+  const { state, ...actions } = useSearchMusicContext();
   const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
   const { register, handleSubmit } = useForm<FormData>();
   const { openModal } = useModalStore();

@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import {
   LoadingProvider,
   ModalProvider,
-  MusicProvider,
+  SearchMusicProvider,
   PlaylistsProvider,
 } from "./store";
 import theme from "@/theme";
@@ -19,13 +19,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <LoadingProvider>
         <ModalProvider>
-          <MusicProvider>
+          <SearchMusicProvider>
             <PlaylistsProvider>
               <BrowserRouter>
                 <Router />
               </BrowserRouter>
             </PlaylistsProvider>
-          </MusicProvider>
+          </SearchMusicProvider>
         </ModalProvider>
       </LoadingProvider>
     </ThemeProvider>

@@ -7,7 +7,6 @@ import React, {
   useReducer,
 } from "react";
 import ky from "ky";
-import * as server from "@/server";
 
 export type MusicsResponse = {
   albumId: string;
@@ -84,7 +83,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useMusicsContext = () => {
+export const useSearchMusicContext = () => {
   const { state, dispatch } = useContext(Context);
 
   const clear = useCallback(() => {
