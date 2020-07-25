@@ -291,34 +291,33 @@ const AddOption = styled.div`
   }
 `;
 
-const SelectOption = () => {
-  const { state } = useMusicsContext();
-  const { openModal } = useModalStore();
+// const SelectOption = () => {
+//   const { state } = useMusicsContext();
+//   const { openModal } = useModalStore();
 
-  const handleClick = () => {
-    openModal(<CreatePlaylistModal key="create-playlist-modal" />);
-  };
+//   const handleClickAddOption = () => {
+//     openModal(<CreatePlaylistModal key="create-playlist-modal" />);
+//   };
 
-  return (
-    <OptionContainer>
-      <Option>카테고리 선택안함</Option>
-      {state.playlists &&
-        state.playlists.map((p) => <Option key={p.id}>{p.playlist}</Option>)}
-      <AddOption onClick={handleClick}>Add playlist</AddOption>
-    </OptionContainer>
-  );
-};
+//   return (
+//     <OptionContainer>
+//       <Option>카테고리 선택안함</Option>
+//       {state.playlists &&
+//         state.playlists.map((p) => <Option key={p.id}>{p.playlist}</Option>)}
+//       <AddOption onClick={handleClickAddOption}>Add playlist</AddOption>
+//     </OptionContainer>
+//   );
+// };
 
 export default () => {
   const { state, ...actions } = useMusicsContext();
   const { register, handleSubmit } = useForm<FormData>();
+  const { openModal } = useModalStore();
   const {
     state: loadingState,
     finishLoading,
     startLoading,
   } = useLoadingStore();
-
-  console.log(state.playlists);
 
   useEffect(() => {
     actions.fetchPlaylists();
@@ -352,16 +351,6 @@ export default () => {
       });
   };
 
-  const onSubmit = handleSubmit(({ desc, music, date, category }) => {
-    state.musics.map((searchedList) => {
-      if (searchedList.id === music) {
-        console.log(searchedList);
-      }
-    });
-
-    console.log(music, date, desc, category);
-  });
-
   const zonedDateToday = getDateByTimeZone();
   const dateValue = formatDate(zonedDateToday);
 
@@ -376,6 +365,27 @@ export default () => {
   const handleClickSelectBox = () => {
     setOpen(!open);
   };
+
+  const handleClickAddOption = () => {
+    openModal(<CreatePlaylistModal key="create-playlist-modal" />);
+  };
+
+  const [playlist, setPlaylist] = useState("select playlist");
+
+  const handleSelectOption = (e: any) => {
+    setPlaylist(e.target.innerHTML);
+    setOpen(false);
+  };
+
+  const onSubmit = handleSubmit(({ desc, music, date }) => {
+    state.musics.map((searchedList) => {
+      if (searchedList.id === music) {
+        console.log(searchedList);
+      }
+    });
+
+    console.log(music, date, desc, playlist);
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -415,7 +425,9 @@ export default () => {
                           type="radio"
                           id={searchedList.id}
                           name="music"
-                          ref={register}
+                          ref={register({
+                            required: true,
+                          })}
                           value={searchedList.id}
                         ></SelectInput>
                         <SelectButton className="checkmark">
@@ -430,9 +442,22 @@ export default () => {
               <Step2>
                 <SelectBoxWrap>
                   <SelectBox onClick={handleClickSelectBox}>
-                    select category
+                    {playlist}
                   </SelectBox>
-                  {open && <SelectOption />}
+                  {open && (
+                    <OptionContainer>
+                      <Option>카테고리 선택안함</Option>
+                      {state.playlists &&
+                        state.playlists.map((p) => (
+                          <Option key={p.id} onClick={handleSelectOption}>
+                            {p.playlist}
+                          </Option>
+                        ))}
+                      <AddOption onClick={handleClickAddOption}>
+                        Add playlist
+                      </AddOption>
+                    </OptionContainer>
+                  )}
                 </SelectBoxWrap>
                 <DatePicker
                   id="date"
