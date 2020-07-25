@@ -7,6 +7,7 @@ import React, {
   useReducer,
 } from "react";
 import ky from "ky";
+import * as server from "@/server";
 
 export type MusicsResponse = {
   albumId: string;
@@ -113,17 +114,12 @@ export const useMusicsContext = () => {
   }, [dispatch]);
 
   const createPlaylist = useCallback((playlist) => {
-    const response = localStorage.getItem("playlist");
-    const playlists = response ? JSON.parse(response) : [];
-    playlists.push(playlist);
-
-    return localStorage.setItem("playlist", JSON.stringify(playlists));
+    server.createPlaylist(playlist);
   }, []);
 
   const fetchPlaylists = useCallback(() => {
     try {
-      const response = localStorage.getItem("playlist");
-      const playlists = response && JSON.parse(response);
+      const playlists = server.fetchPlaylists();
 
       dispatch({
         type: ACTION_TYPES.FETCH_PLAYLISTS,
