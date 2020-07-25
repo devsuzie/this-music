@@ -3,7 +3,7 @@ export { Provider as ModalProvider, useModalStore } from "./Modal";
 export {
   Provider as SearchMusicProvider,
   useSearchMusicContext,
-} from "./Music";
+} from "./SearchMusic";
 export {
   Provider as PlaylistsProvider,
   usePlaylistsContext,
