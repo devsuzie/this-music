@@ -1,4 +1,4 @@
-import { Playlists } from "@/store/Music";
+import { Playlists } from "@/store/Playlists";
 
 export const createPlaylist = (playlist: Playlists) => {
   const response = localStorage.getItem("playlist");

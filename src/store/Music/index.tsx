@@ -17,24 +17,15 @@ export type MusicsResponse = {
   albumCover: string;
 };
 
-export type Playlists = {
-  id: string;
-  playlist: string;
-};
-
 enum ACTION_TYPES {
   CLEAR = "CLEAR",
-  CREATE_PLAYLIST = "CREATE_PLAYLIST",
   FETCH_MUSIC = "FETCH_MUSIC",
-  FETCH_PLAYLISTS = "FETCH_PLAYLISTS",
   SET_QUERY = "SET_QUERY",
 }
 
 type Action =
   | { type: ACTION_TYPES.CLEAR }
-  | { type: ACTION_TYPES.CREATE_PLAYLIST }
   | { type: ACTION_TYPES.FETCH_MUSIC; musics: MusicsResponse[] }
-  | { type: ACTION_TYPES.FETCH_PLAYLISTS; playlists: Playlists[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
 type Query = {
@@ -43,13 +34,11 @@ type Query = {
 
 interface State {
   musics: MusicsResponse[];
-  playlists: Playlists[];
   query: Query;
 }
 
 const INITIAL_STATE: State = {
   musics: [],
-  playlists: [],
   query: {
     music: "",
   },
@@ -62,19 +51,10 @@ const reducer: Reducer<State, Action> = (
   switch (action.type) {
     case ACTION_TYPES.CLEAR:
       return INITIAL_STATE;
-    case ACTION_TYPES.CREATE_PLAYLIST:
-      return {
-        ...prevState,
-      };
     case ACTION_TYPES.FETCH_MUSIC:
       return {
         ...prevState,
         musics: action.musics,
-      };
-    case ACTION_TYPES.FETCH_PLAYLISTS:
-      return {
-        ...prevState,
-        playlists: action.playlists,
       };
     case ACTION_TYPES.SET_QUERY:
       return {
@@ -111,23 +91,6 @@ export const useMusicsContext = () => {
     dispatch({
       type: ACTION_TYPES.CLEAR,
     });
-  }, [dispatch]);
-
-  const createPlaylist = useCallback((playlist) => {
-    server.createPlaylist(playlist);
-  }, []);
-
-  const fetchPlaylists = useCallback(() => {
-    try {
-      const playlists = server.fetchPlaylists();
-
-      dispatch({
-        type: ACTION_TYPES.FETCH_PLAYLISTS,
-        playlists,
-      });
-    } catch (e) {
-      throw e;
-    }
   }, [dispatch]);
 
   const fetchMusic = useCallback(
@@ -172,9 +135,7 @@ export const useMusicsContext = () => {
   return {
     state,
     clear,
-    createPlaylist,
     fetchMusic,
-    fetchPlaylists,
     setQuery,
   };
 };

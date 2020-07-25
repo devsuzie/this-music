@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 
 import { ModalBody, ModalHeader, Modal } from "../components/Modal";
-import { useModalStore, useMusicsContext } from "../store";
+import { useModalStore, useMusicsContext, usePlaylistsContext } from "../store";
 
 type FormData = {
   playlist: string;
@@ -98,7 +98,7 @@ const Button = styled.button`
 
 export default () => {
   const { closeModal } = useModalStore();
-  const { state, ...actions } = useMusicsContext();
+  const { state, ...actions } = usePlaylistsContext();
   const { register, handleSubmit } = useForm<FormData>();
 
   function handleClose() {

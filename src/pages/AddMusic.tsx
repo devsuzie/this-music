@@ -8,7 +8,12 @@ import styled from "@emotion/styled";
 
 import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
-import { useLoadingStore, useModalStore, useMusicsContext } from "@/store";
+import {
+  useLoadingStore,
+  useModalStore,
+  useMusicsContext,
+  usePlaylistsContext,
+} from "@/store";
 
 const theme = {
   colors: {
@@ -311,6 +316,7 @@ const AddOption = styled.div`
 
 export default () => {
   const { state, ...actions } = useMusicsContext();
+  const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
   const { register, handleSubmit } = useForm<FormData>();
   const { openModal } = useModalStore();
   const {
@@ -320,7 +326,7 @@ export default () => {
   } = useLoadingStore();
 
   useEffect(() => {
-    actions.fetchPlaylists();
+    fetchPlaylists();
   }, []);
 
   const [musicQuery, setMusicQuery] = useState("");
@@ -447,8 +453,8 @@ export default () => {
                   {open && (
                     <OptionContainer>
                       <Option>카테고리 선택안함</Option>
-                      {state.playlists &&
-                        state.playlists.map((p) => (
+                      {playlistState.playlists &&
+                        playlistState.playlists.map((p) => (
                           <Option key={p.id} onClick={handleSelectOption}>
                             {p.playlist}
                           </Option>
