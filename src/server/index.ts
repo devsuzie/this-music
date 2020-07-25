@@ -1,1 +1,1 @@
-export { createPlaylist, fetchPlaylists } from "./playlists";
+export { createPlaylist, fetchPlaylists } from "./Playlists";
