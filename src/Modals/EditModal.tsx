@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import Form from "react-bootstrap/Form";
+import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
-import { ModalBody, ModalHeader, Modal } from "../components/Modal";
-import { useModalStore } from "../store";
+import { ModalBody, ModalHeader, Modal } from "@/components/Modal";
+import { formatDate, getDateByTimeZone } from "@/lib/date";
+import { useModalStore } from "@/store";
 
 const theme = {
   colors: {
@@ -141,12 +144,32 @@ const TextArea = styled.textarea`
   }
 `;
 
+type FormData = {
+  playlist?: string;
+  date?: any;
+  text?: string;
+};
+
 export default () => {
   const { closeModal } = useModalStore();
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const zonedDateToday = getDateByTimeZone();
+  const dateValue = formatDate(zonedDateToday);
+
+  const [dateQuery, setDateQuery] = useState(dateValue);
+
+  const handleChangeDate = (e: any) => {
+    setDateQuery(e.target.value);
+  };
 
   function handleClose() {
     closeModal();
   }
+
+  const onSubmit = handleSubmit(({ date }) => {
+    console.log(date);
+  });
 
   return (
     <StyledModal>
@@ -154,16 +177,25 @@ export default () => {
         <Title>Edit</Title>
       </StyledModalHeader>
       <StyledModalBody>
-        <SelectBoxWrap>
-          <SelectBox>
-            <option>option 1</option>
-            <option>option 2</option>
-            <option>option 3</option>
-          </SelectBox>
-        </SelectBoxWrap>
-        <DatePicker type="date" value="2020-06-22" />
-        <TextArea cols={30} rows={10} />
-        <SubmitButton>Save It!</SubmitButton>
+        <Form onSubmit={onSubmit}>
+          <SelectBoxWrap>
+            <SelectBox>
+              <option>option 1</option>
+              <option>option 2</option>
+              <option>option 3</option>
+            </SelectBox>
+          </SelectBoxWrap>
+          <DatePicker
+            id="date"
+            name="date"
+            onChange={handleChangeDate}
+            type="date"
+            value={dateQuery}
+            ref={register}
+          />
+          <TextArea cols={30} rows={10} />
+          <SubmitButton>Save It!</SubmitButton>
+        </Form>
       </StyledModalBody>
       <CloseButton onClick={handleClose}>닫기</CloseButton>
     </StyledModal>
