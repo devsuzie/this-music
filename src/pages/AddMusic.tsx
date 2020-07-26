@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
+import { v4 as uuidv4 } from "uuid";
 
 import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
@@ -360,6 +361,7 @@ export default () => {
     state.musics.forEach((searchedList) => {
       if (searchedList.id === musicId) {
         const musics = {
+          id: uuidv4(),
           music: {
             albumCover: searchedList.albumCover,
             albumId: searchedList.albumId,

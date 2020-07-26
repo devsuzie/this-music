@@ -9,6 +9,7 @@ import React, {
 import * as server from "@/server";
 
 export type Music = {
+  id: string;
   music: {
     albumCover: string;
     albumId: string;
@@ -93,9 +94,14 @@ export const useMusicsContext = () => {
     }
   }, [dispatch]);
 
+  const fetchById = useCallback((id) => {
+    return server.fetchById(id);
+  }, []);
+
   return {
     state,
     create,
     fetchAll,
+    fetchById,
   };
 };

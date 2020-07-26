@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
 import { ModalBody, ModalHeader, Modal } from "@/components/Modal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
-import { useModalStore } from "@/store";
+import { useModalStore, useMusicsContext } from "@/store";
 
 const theme = {
   colors: {
@@ -150,9 +150,11 @@ type FormData = {
   text?: string;
 };
 
-export default () => {
+export default ({ musicId }: { musicId: string }) => {
+  console.log(musicId);
+  const { state, ...actions } = useMusicsContext();
   const { closeModal } = useModalStore();
-  const { register, handleSubmit } = useForm<FormData>();
+  const { register, reset, handleSubmit } = useForm<FormData>();
 
   const zonedDateToday = getDateByTimeZone();
   const dateValue = formatDate(zonedDateToday);
@@ -167,8 +169,8 @@ export default () => {
     closeModal();
   }
 
-  const onSubmit = handleSubmit(({ date }) => {
-    console.log(date);
+  const onSubmit = handleSubmit(({ date, text }) => {
+    console.log(date, text);
   });
 
   return (
@@ -193,7 +195,7 @@ export default () => {
             value={dateQuery}
             ref={register}
           />
-          <TextArea cols={30} rows={10} />
+          <TextArea cols={30} rows={10} name="text" ref={register} />
           <SubmitButton>Save It!</SubmitButton>
         </Form>
       </StyledModalBody>

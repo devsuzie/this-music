@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
@@ -222,6 +222,16 @@ const AddLink = styled(Link)`
   }
 `;
 
+interface MusicProps {
+  musicId?: string;
+  onClick: () => void;
+  children: ReactNode;
+}
+
+const MusicCardLiTest: React.FC<MusicProps> = ({ musicId = "", children }) => (
+  <MusicCardLi>{children}</MusicCardLi>
+);
+
 export default () => {
   const { openModal } = useModalStore();
   const { state, ...actions } = useMusicsContext();
@@ -234,7 +244,7 @@ export default () => {
   }, []);
 
   const handleClick = () => {
-    openModal(<EditModal key="edit-modal" />);
+    openModal(<EditModal key="edit-modal" musicId="2" />);
   };
 
   return (
@@ -260,7 +270,7 @@ export default () => {
           <MusicCardUl>
             {state.musics &&
               state.musics.map((m, index) => (
-                <MusicCardLi key={index} onClick={handleClick}>
+                <MusicCardLiTest key={index} onClick={handleClick}>
                   <MusicInfo>
                     <AlbumCover src={m.music.albumCover} />
                     <DetailContainer>
@@ -270,7 +280,7 @@ export default () => {
                     </DetailContainer>
                   </MusicInfo>
                   <MusicDesc>{m.text}</MusicDesc>
-                </MusicCardLi>
+                </MusicCardLiTest>
               ))}
           </MusicCardUl>
           <AddLink to="/add-music">add</AddLink>

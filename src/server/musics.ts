@@ -14,3 +14,15 @@ export const fetchAll = () => {
 
   return musics;
 };
+
+export const fetchById = (id: string) => {
+  const response = localStorage.getItem("musics");
+  const musics = response && JSON.parse(response);
+
+  musics.forEach((m: any) => {
+    if (m.id === id) {
+      console.log(m);
+      return m;
+    }
+  });
+};
