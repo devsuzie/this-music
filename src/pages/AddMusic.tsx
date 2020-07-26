@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import { ThemeProvider } from "emotion-theming";
@@ -11,6 +11,7 @@ import { formatDate, getDateByTimeZone } from "@/lib/date";
 import {
   useLoadingStore,
   useModalStore,
+  useMusicsContext,
   useSearchMusicContext,
   usePlaylistsContext,
 } from "@/store";
@@ -207,7 +208,7 @@ const Step3 = styled.div`
 
 const TextArea = styled.textarea`
   resize: none;
-  width: calc(100% - 60px);
+  width: 100%;
   border: none;
   background-color: ${theme.colors.primaryLight};
   color: ${theme.colors.black};
@@ -245,16 +246,10 @@ const Label = styled.label`
 `;
 
 type FormData = {
-  music?: {
-    albumCover?: string;
-    albumId?: string;
-    artist?: string;
-    id?: string;
-    title?: string;
-  };
-  category?: string;
+  musicId: string;
+  playlist?: string;
   date?: any;
-  desc: string;
+  text: string;
 };
 
 const OptionContainer = styled.div`
@@ -298,6 +293,7 @@ const AddOption = styled.div`
 
 export default () => {
   const { state, ...actions } = useSearchMusicContext();
+  const { create, fetchAll } = useMusicsContext();
   const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
   const { register, handleSubmit } = useForm<FormData>();
   const { openModal } = useModalStore();
@@ -307,19 +303,13 @@ export default () => {
     startLoading,
   } = useLoadingStore();
 
+  const history = useHistory();
+
   useEffect(() => {
     fetchPlaylists();
   }, []);
 
   const [musicQuery, setMusicQuery] = useState("");
-
-  const INITIAL_STATE = {
-    albumCover: "",
-    albumId: "",
-    artist: "",
-    id: "",
-    title: "",
-  };
 
   const handleChange = (e: any) => {
     setMusicQuery(e.target.value);
@@ -365,14 +355,27 @@ export default () => {
     setOpen(false);
   };
 
-  const onSubmit = handleSubmit(({ desc, music, date }) => {
-    state.musics.map((searchedList) => {
-      if (searchedList.id === music) {
-        console.log(searchedList);
+  const onSubmit = handleSubmit(({ text, musicId, date }) => {
+    state.musics.forEach((searchedList) => {
+      if (searchedList.id === musicId) {
+        const musics = {
+          music: {
+            albumCover: searchedList.albumCover,
+            albumId: searchedList.albumId,
+            artist: searchedList.artist,
+            id: searchedList.id,
+            title: searchedList.title,
+          },
+          playlist,
+          date,
+          text,
+        };
+
+        create(musics);
       }
     });
-
-    console.log(music, date, desc, playlist);
+    fetchAll();
+    history.push("/");
   });
 
   return (
@@ -412,7 +415,7 @@ export default () => {
                         <SelectInput
                           type="radio"
                           id={searchedList.id}
-                          name="music"
+                          name="musicId"
                           ref={register({
                             required: true,
                           })}
@@ -458,7 +461,7 @@ export default () => {
               </Step2>
               <StepTitle>3. Write Something!</StepTitle>
               <Step3>
-                <TextArea cols={30} rows={10} name="desc" ref={register} />
+                <TextArea cols={30} rows={10} name="text" ref={register} />
               </Step3>
             </StepContainer>
             <SaveButton type="submit">Save It!</SaveButton>

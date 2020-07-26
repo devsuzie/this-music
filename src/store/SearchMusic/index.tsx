@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import ky from "ky";
 
-export type MusicsResponse = {
+export type SearchedMusic = {
   albumId: string;
   artist: string;
   id: string;
@@ -24,7 +24,7 @@ enum ACTION_TYPES {
 
 type Action =
   | { type: ACTION_TYPES.CLEAR }
-  | { type: ACTION_TYPES.FETCH_MUSIC; musics: MusicsResponse[] }
+  | { type: ACTION_TYPES.FETCH_MUSIC; musics: SearchedMusic[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
 type Query = {
@@ -32,7 +32,7 @@ type Query = {
 };
 
 interface State {
-  musics: MusicsResponse[];
+  musics: SearchedMusic[];
   query: Query;
 }
 

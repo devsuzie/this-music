@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 
 import EditModal from "@/Modals/EditModal";
-import { useModalStore } from "@/store";
+import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
 
 interface Theme {
   colors: {
@@ -56,7 +56,7 @@ const Logo = styled.h1`
 const Container = styled.div`
   margin: 0 auto;
   position: relative;
-  width: 1200px;
+  max-width: 1300px;
   font-family: ${theme.fonts.avenir}, sans-serif;
   font-size: 16px;
   padding: 50px 0;
@@ -100,6 +100,7 @@ const LiElement = styled.span`
 
   &:hover {
     background-color: ${theme.colors.active};
+    cursor: pointer;
   }
 `;
 
@@ -166,6 +167,7 @@ const MusicCardLi = styled.li`
 const MusicInfo = styled.div`
   position: relative;
   height: 130px;
+  margin-bottom: 20px;
 `;
 
 const AlbumCover = styled.img`
@@ -184,7 +186,7 @@ const DetailContainer = styled.div`
 `;
 
 const DetailEl = styled.span`
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   display: block;
 `;
@@ -222,63 +224,13 @@ const AddLink = styled(Link)`
 
 export default () => {
   const { openModal } = useModalStore();
+  const { state, ...actions } = useMusicsContext();
+  const { state: playlistSate, fetchPlaylists } = usePlaylistsContext();
 
-  const playList = [
-    {
-      title: "전체 노래 목록",
-    },
-    {
-      title: "6월에 들은 노래",
-    },
-    {
-      title: "비올때 듣는 노래",
-    },
-    {
-      title: "As Long As You Love me",
-    },
-    {
-      title: "Sunny Day",
-    },
-  ];
-
-  const musics = [
-    {
-      id: "1",
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
-    {
-      id: "2",
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
-    {
-      id: "3",
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
-    {
-      id: "4",
-      singer: "King Gnu",
-      title: "白日",
-      date: "2020년 5월 3일",
-      albumCover: "https://m.media-amazon.com/images/I/81FYXjViaHL._SS500_.jpg",
-      desc:
-        "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney",
-    },
-  ];
+  useEffect(() => {
+    actions.fetchAll();
+    fetchPlaylists();
+  }, []);
 
   const handleClick = () => {
     openModal(<EditModal key="edit-modal" />);
@@ -291,11 +243,12 @@ export default () => {
         <PlayListContainer>
           <PlayListTitle>Playlist</PlayListTitle>
           <PlayListUl>
-            {playList.map((list, index) => (
-              <PlayListLi key={index}>
-                <LiElement>{list.title}</LiElement>
-              </PlayListLi>
-            ))}
+            {playlistSate.playlists &&
+              playlistSate.playlists.map((playlist) => (
+                <PlayListLi key={playlist.id}>
+                  <LiElement>{playlist.playlist}</LiElement>
+                </PlayListLi>
+              ))}
           </PlayListUl>
         </PlayListContainer>
         <MainContainer>
@@ -304,19 +257,20 @@ export default () => {
             <Button>search</Button>
           </SearchForm>
           <MusicCardUl>
-            {musics.map((music, index) => (
-              <MusicCardLi key={index} onClick={handleClick}>
-                <MusicInfo>
-                  <AlbumCover src={music.albumCover} />
-                  <DetailContainer>
-                    <DetailEl>{music.singer}</DetailEl>
-                    <DetailEl>{music.title}</DetailEl>
-                    <Date>{music.date}</Date>
-                  </DetailContainer>
-                </MusicInfo>
-                <MusicDesc>{music.desc}</MusicDesc>
-              </MusicCardLi>
-            ))}
+            {state.musics &&
+              state.musics.map((m, index) => (
+                <MusicCardLi key={index} onClick={handleClick}>
+                  <MusicInfo>
+                    <AlbumCover src={m.music.albumCover} />
+                    <DetailContainer>
+                      <DetailEl>{m.music.artist}</DetailEl>
+                      <DetailEl>{m.music.title}</DetailEl>
+                      <Date>{m.date}</Date>
+                    </DetailContainer>
+                  </MusicInfo>
+                  <MusicDesc>{m.text}</MusicDesc>
+                </MusicCardLi>
+              ))}
           </MusicCardUl>
           <AddLink to="/add-music">add</AddLink>
         </MainContainer>
