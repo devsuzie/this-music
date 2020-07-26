@@ -150,7 +150,7 @@ type FormData = {
   text?: string;
 };
 
-export default ({ musicId }: { musicId: string }) => {
+export default ({ musicId }: { musicId: string | undefined }) => {
   console.log(musicId);
   const { state, ...actions } = useMusicsContext();
   const { closeModal } = useModalStore();

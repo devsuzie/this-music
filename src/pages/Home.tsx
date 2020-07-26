@@ -224,16 +224,21 @@ const AddLink = styled(Link)`
 
 interface MusicProps {
   musicId?: string;
-  onClick: () => void;
+  onClick?: () => void;
   children: ReactNode;
 }
 
-const MusicCardLiTest: React.FC<MusicProps> = ({ musicId = "", children }) => (
-  <MusicCardLi>{children}</MusicCardLi>
-);
+const MusicLi: React.FC<MusicProps> = ({ musicId, children }) => {
+  const { openModal } = useModalStore();
+
+  const handleClick = () => {
+    openModal(<EditModal key="edit-modal" musicId={musicId} />);
+  };
+
+  return <MusicCardLi onClick={handleClick}>{children}</MusicCardLi>;
+};
 
 export default () => {
-  const { openModal } = useModalStore();
   const { state, ...actions } = useMusicsContext();
   const { state: playlistSate, fetchPlaylists } = usePlaylistsContext();
 
@@ -242,10 +247,6 @@ export default () => {
     fetchPlaylists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleClick = () => {
-    openModal(<EditModal key="edit-modal" musicId="2" />);
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -270,7 +271,7 @@ export default () => {
           <MusicCardUl>
             {state.musics &&
               state.musics.map((m, index) => (
-                <MusicCardLiTest key={index} onClick={handleClick}>
+                <MusicLi key={index} musicId={m.id}>
                   <MusicInfo>
                     <AlbumCover src={m.music.albumCover} />
                     <DetailContainer>
@@ -280,7 +281,7 @@ export default () => {
                     </DetailContainer>
                   </MusicInfo>
                   <MusicDesc>{m.text}</MusicDesc>
-                </MusicCardLiTest>
+                </MusicLi>
               ))}
           </MusicCardUl>
           <AddLink to="/add-music">add</AddLink>
