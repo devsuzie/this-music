@@ -307,6 +307,7 @@ export default () => {
 
   useEffect(() => {
     fetchPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [musicQuery, setMusicQuery] = useState("");

@@ -107,6 +107,7 @@ export default () => {
 
   useEffect(() => {
     actions.fetchPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = handleSubmit(({ playlist }) => {

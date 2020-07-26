@@ -230,6 +230,7 @@ export default () => {
   useEffect(() => {
     actions.fetchAll();
     fetchPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClick = () => {
