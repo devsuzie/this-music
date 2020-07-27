@@ -26,12 +26,14 @@ enum ACTION_TYPES {
   CREATE = "CREATE",
   FETCH_ALL = "FETCH_ALL",
   FETCH_BY_ID = "FETCH_BY_ID",
+  UPDATE = "UPDATE",
 }
 
 type Action =
   | { type: ACTION_TYPES.CREATE }
   | { type: ACTION_TYPES.FETCH_ALL; musics: Music[] }
-  | { type: ACTION_TYPES.FETCH_BY_ID; musicDetail: any };
+  | { type: ACTION_TYPES.FETCH_BY_ID; musicDetail: any }
+  | { type: ACTION_TYPES.UPDATE };
 
 interface State {
   musics: Music[];
@@ -73,6 +75,10 @@ const reducer: Reducer<State, Action> = (
       return {
         ...prevState,
         musicDetail: action.musicDetail,
+      };
+    case ACTION_TYPES.UPDATE:
+      return {
+        ...prevState,
       };
     default:
       return INITIAL_STATE;
@@ -131,10 +137,15 @@ export const useMusicsContext = () => {
     [dispatch]
   );
 
+  const update = useCallback((id, { playlist, date, text }) => {
+    server.update(id, { playlist, date, text });
+  }, []);
+
   return {
     state,
     create,
     fetchAll,
     fetchById,
+    update,
   };
 };
