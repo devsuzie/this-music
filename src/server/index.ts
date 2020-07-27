@@ -1,2 +1,2 @@
-export { create, fetchAll, fetchById } from "./musics";
+export { create, fetchAll, fetchById, update } from "./musics";
 export { createPlaylist, fetchPlaylists } from "./playlists";

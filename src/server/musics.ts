@@ -25,3 +25,23 @@ export const fetchById = (id: string) => {
     }
   }
 };
+
+export const update = (
+  id: string,
+  { playlist, date, text }: { playlist: string; date: string; text: string }
+) => {
+  const response = localStorage.getItem("musics");
+  const musics = response ? JSON.parse(response) : [];
+
+  for (const m of musics) {
+    if (m.id === id) {
+      m.playlist = playlist;
+      m.date = date;
+      m.text = text;
+    }
+  }
+
+  console.log(musics);
+
+  return localStorage.setItem("musics", JSON.stringify(musics));
+};
