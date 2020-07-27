@@ -151,7 +151,6 @@ type FormData = {
 };
 
 export default ({ musicId }: { musicId: string | undefined }) => {
-  console.log(musicId);
   const { state, ...actions } = useMusicsContext();
   const { closeModal } = useModalStore();
   const { register, reset, handleSubmit } = useForm<FormData>();
@@ -168,6 +167,17 @@ export default ({ musicId }: { musicId: string | undefined }) => {
   function handleClose() {
     closeModal();
   }
+
+  useEffect(() => {
+    actions.fetchById(musicId);
+  }, []);
+
+  useEffect(() => {
+    reset({
+      date: state.musicDetail.date,
+      text: state.musicDetail.text,
+    });
+  }, [state.musicDetail]);
 
   const onSubmit = handleSubmit(({ date, text }) => {
     console.log(date, text);

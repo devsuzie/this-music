@@ -224,7 +224,6 @@ const AddLink = styled(Link)`
 
 interface MusicProps {
   musicId?: string;
-  onClick?: () => void;
   children: ReactNode;
 }
 
