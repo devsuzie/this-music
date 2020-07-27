@@ -440,7 +440,9 @@ export default () => {
                   </SelectBox>
                   {open && (
                     <OptionContainer>
-                      <Option>카테고리 선택안함</Option>
+                      <Option onClick={handleSelectOption}>
+                        카테고리 선택안함
+                      </Option>
                       {playlistState.playlists &&
                         playlistState.playlists.map((p) => (
                           <Option key={p.id} onClick={handleSelectOption}>
