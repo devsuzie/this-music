@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 import { ModalBody, ModalHeader, Modal } from "@/components/Modal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
-import { useModalStore, useMusicsContext } from "@/store";
+import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
 
 const theme = {
   colors: {
@@ -88,7 +88,7 @@ const SelectBoxWrap = styled.div`
   position: relative;
 `;
 
-const SelectBox = styled.select`
+const SelectBox = styled.div`
   border: none;
   background: url(/assets/down-arrow.png) no-repeat 95% 60%;
   background-size: 16px 13px;
@@ -100,14 +100,9 @@ const SelectBox = styled.select`
   border-radius: 10px;
   margin-bottom: 20px;
   width: calc(80% - 40px);
-  -webkit-appearance: none;
-  -moz-appearance: none;
   text-indent: 1px;
   text-overflow: "";
-
-  &:focus {
-    outline: none;
-  }
+  cursor: pointer;
 `;
 
 const DatePicker = styled.input`
@@ -144,6 +139,45 @@ const TextArea = styled.textarea`
   }
 `;
 
+const OptionContainer = styled.div`
+  background-color: #f2efef;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  padding: 15px 0;
+  top: 45px;
+  width: calc(80% - 40px);
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const Option = styled.div`
+  color: ${theme.colors.black};
+  height: 40px;
+  line-height: 40px;
+  padding: 0 30px;
+
+  &: hover {
+    color: ${theme.colors.active};
+  }
+`;
+
+const AddOption = styled.div`
+  color: ${theme.colors.black};
+  height: 60px;
+  line-height: 60px;
+  border-top: 1px solid ${theme.colors.active};
+  padding: 0 30px;
+  padding-left: 60px;
+  background: url(/assets/add-btn.png) no-repeat 5% 60%;
+  background-size: 35px 35px;
+  border-radius: 0 0 10px 10px;
+  margin-top: 10px;
+
+  &: hover {
+    background-color: ${theme.colors.white};
+  }
+`;
+
 type FormData = {
   playlist?: string;
   date?: any;
@@ -152,13 +186,30 @@ type FormData = {
 
 export default ({ musicId }: { musicId: string | undefined }) => {
   const { state, ...actions } = useMusicsContext();
+  const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
   const { closeModal } = useModalStore();
   const { register, reset, handleSubmit } = useForm<FormData>();
 
   const zonedDateToday = getDateByTimeZone();
   const dateValue = formatDate(zonedDateToday);
 
+  const [open, setOpen] = useState(false);
   const [dateQuery, setDateQuery] = useState(dateValue);
+  const [playlist, setPlaylist] = useState("");
+
+  useEffect(() => {
+    fetchPlaylists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleClickSelectBox = () => {
+    setOpen(!open);
+  };
+
+  const handleSelectOption = (e: any) => {
+    setPlaylist(e.target.innerHTML);
+    setOpen(false);
+  };
 
   const handleChangeDate = (e: any) => {
     setDateQuery(e.target.value);
@@ -180,7 +231,9 @@ export default ({ musicId }: { musicId: string | undefined }) => {
   }, [state.musicDetail]);
 
   const onSubmit = handleSubmit(({ date, text }) => {
-    console.log(date, text);
+    actions.update(musicId, { playlist, date, text });
+    actions.fetchAll();
+    closeModal();
   });
 
   return (
@@ -191,11 +244,20 @@ export default ({ musicId }: { musicId: string | undefined }) => {
       <StyledModalBody>
         <Form onSubmit={onSubmit}>
           <SelectBoxWrap>
-            <SelectBox>
-              <option>option 1</option>
-              <option>option 2</option>
-              <option>option 3</option>
+            <SelectBox onClick={handleClickSelectBox}>
+              {playlist ? playlist : state.musicDetail.playlist}
             </SelectBox>
+            {open && (
+              <OptionContainer>
+                <Option>카테고리 선택안함</Option>
+                {playlistState.playlists &&
+                  playlistState.playlists.map((p) => (
+                    <Option key={p.id} onClick={handleSelectOption}>
+                      {p.playlist}
+                    </Option>
+                  ))}
+              </OptionContainer>
+            )}
           </SelectBoxWrap>
           <DatePicker
             id="date"

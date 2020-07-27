@@ -41,7 +41,5 @@ export const update = (
     }
   }
 
-  console.log(musics);
-
   return localStorage.setItem("musics", JSON.stringify(musics));
 };
