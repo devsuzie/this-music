@@ -25,18 +25,34 @@ export type Music = {
 enum ACTION_TYPES {
   CREATE = "CREATE",
   FETCH_ALL = "FETCH_ALL",
+  FETCH_BY_ID = "FETCH_BY_ID",
 }
 
 type Action =
   | { type: ACTION_TYPES.CREATE }
-  | { type: ACTION_TYPES.FETCH_ALL; musics: Music[] };
+  | { type: ACTION_TYPES.FETCH_ALL; musics: Music[] }
+  | { type: ACTION_TYPES.FETCH_BY_ID; musicDetail: any };
 
 interface State {
   musics: Music[];
+  musicDetail: Music;
 }
 
 const INITIAL_STATE: State = {
   musics: [],
+  musicDetail: {
+    id: "",
+    music: {
+      albumCover: "",
+      albumId: "",
+      artist: "",
+      id: "",
+      title: "",
+    },
+    playlist: "",
+    date: "",
+    text: "",
+  },
 };
 
 const reducer: Reducer<State, Action> = (
@@ -52,6 +68,11 @@ const reducer: Reducer<State, Action> = (
       return {
         ...prevState,
         musics: action.musics,
+      };
+    case ACTION_TYPES.FETCH_BY_ID:
+      return {
+        ...prevState,
+        musicDetail: action.musicDetail,
       };
     default:
       return INITIAL_STATE;
@@ -94,9 +115,21 @@ export const useMusicsContext = () => {
     }
   }, [dispatch]);
 
-  const fetchById = useCallback((id) => {
-    return server.fetchById(id);
-  }, []);
+  const fetchById = useCallback(
+    (id) => {
+      try {
+        const musicDetail = server.fetchById(id);
+
+        dispatch({
+          type: ACTION_TYPES.FETCH_BY_ID,
+          musicDetail,
+        });
+      } catch (e) {
+        throw e;
+      }
+    },
+    [dispatch]
+  );
 
   return {
     state,

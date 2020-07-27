@@ -19,10 +19,9 @@ export const fetchById = (id: string) => {
   const response = localStorage.getItem("musics");
   const musics = response && JSON.parse(response);
 
-  musics.forEach((m: any) => {
+  for (const m of musics) {
     if (m.id === id) {
-      console.log(m);
       return m;
     }
-  });
+  }
 };
