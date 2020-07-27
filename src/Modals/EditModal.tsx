@@ -161,23 +161,6 @@ const Option = styled.div`
   }
 `;
 
-const AddOption = styled.div`
-  color: ${theme.colors.black};
-  height: 60px;
-  line-height: 60px;
-  border-top: 1px solid ${theme.colors.active};
-  padding: 0 30px;
-  padding-left: 60px;
-  background: url(/assets/add-btn.png) no-repeat 5% 60%;
-  background-size: 35px 35px;
-  border-radius: 0 0 10px 10px;
-  margin-top: 10px;
-
-  &: hover {
-    background-color: ${theme.colors.white};
-  }
-`;
-
 type FormData = {
   playlist?: string;
   date?: any;
@@ -221,6 +204,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
 
   useEffect(() => {
     actions.fetchById(musicId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -228,6 +212,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
       date: state.musicDetail.date,
       text: state.musicDetail.text,
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.musicDetail]);
 
   const onSubmit = handleSubmit(({ date, text }) => {
