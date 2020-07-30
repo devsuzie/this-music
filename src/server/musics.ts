@@ -8,11 +8,22 @@ export const create = (music: Music) => {
   return localStorage.setItem("musics", JSON.stringify(musics));
 };
 
-export const fetchAll = () => {
+export const fetchAll = (playlist: string) => {
   const response = localStorage.getItem("musics");
   const musics = response && JSON.parse(response);
+  const selectedPlaylistMusics: Music[] = [];
 
-  return musics;
+  if (playlist === "") {
+    return musics;
+  } else {
+    musics.filter((m: Music) => {
+      if (m.playlist === playlist) {
+        selectedPlaylistMusics.push(m);
+      }
+    });
+
+    return selectedPlaylistMusics;
+  }
 };
 
 export const fetchById = (id: string) => {
