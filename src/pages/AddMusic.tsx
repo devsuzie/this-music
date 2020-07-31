@@ -353,6 +353,7 @@ export default () => {
   const [playlist, setPlaylist] = useState("select playlist");
 
   const handleSelectOption = (e: any) => {
+    // innerHTML 말고 다른 방식으로 playlist object 가져오도록..!
     setPlaylist(e.target.innerHTML);
     setOpen(false);
   };
@@ -369,7 +370,10 @@ export default () => {
             id: searchedList.id,
             title: searchedList.title,
           },
-          playlist,
+          playlist: {
+            id: 2,
+            name: "playlist",
+          },
           date,
           text,
         };
@@ -377,7 +381,7 @@ export default () => {
         create(musics);
       }
     });
-    fetchAll();
+    fetchAll("");
     history.push("/");
   });
 
@@ -446,7 +450,7 @@ export default () => {
                       {playlistState.playlists &&
                         playlistState.playlists.map((p) => (
                           <Option key={p.id} onClick={handleSelectOption}>
-                            {p.playlist}
+                            {p.name}
                           </Option>
                         ))}
                       <AddOption onClick={handleClickAddOption}>

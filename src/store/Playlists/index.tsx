@@ -10,7 +10,7 @@ import * as server from "@/server";
 
 export type Playlists = {
   id: string;
-  playlist: string;
+  name: string;
 };
 
 enum ACTION_TYPES {

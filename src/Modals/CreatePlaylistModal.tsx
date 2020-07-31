@@ -113,7 +113,7 @@ export default () => {
   const onSubmit = handleSubmit(({ playlist }) => {
     const playlists = {
       id: uuidv4(),
-      playlist,
+      name: playlist,
     };
     actions.createPlaylist(playlists);
     closeModal();

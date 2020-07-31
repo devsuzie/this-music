@@ -108,18 +108,21 @@ export const useMusicsContext = () => {
     server.create(music);
   }, []);
 
-  const fetchAll = useCallback(() => {
-    try {
-      const musics = server.fetchAll();
+  const fetchAll = useCallback(
+    (playlist) => {
+      try {
+        const musics = server.fetchAll(playlist);
 
-      dispatch({
-        type: ACTION_TYPES.FETCH_ALL,
-        musics,
-      });
-    } catch (e) {
-      throw e;
-    }
-  }, [dispatch]);
+        dispatch({
+          type: ACTION_TYPES.FETCH_ALL,
+          musics,
+        });
+      } catch (e) {
+        throw e;
+      }
+    },
+    [dispatch]
+  );
 
   const fetchById = useCallback(
     (id) => {

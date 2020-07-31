@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode } from "react";
+import React, { useEffect, ReactNode, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
@@ -242,10 +242,18 @@ export default () => {
   const { state: playlistSate, fetchPlaylists } = usePlaylistsContext();
 
   useEffect(() => {
-    actions.fetchAll();
+    actions.fetchAll("");
     fetchPlaylists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleClickPlaylist = useCallback(
+    (e: any) => {
+      const selectedPlaylist = e.target.innerHTML;
+      actions.fetchAll(selectedPlaylist);
+    },
+    [actions.fetchAll]
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -255,9 +263,9 @@ export default () => {
           <PlayListTitle>Playlist</PlayListTitle>
           <PlayListUl>
             {playlistSate.playlists &&
-              playlistSate.playlists.map((playlist) => (
-                <PlayListLi key={playlist.id}>
-                  <LiElement>{playlist.playlist}</LiElement>
+              playlistSate.playlists.map((p) => (
+                <PlayListLi key={p.id}>
+                  <LiElement onClick={handleClickPlaylist}>{p.name}</LiElement>
                 </PlayListLi>
               ))}
           </PlayListUl>

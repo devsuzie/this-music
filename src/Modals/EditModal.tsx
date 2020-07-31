@@ -217,7 +217,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
 
   const onSubmit = handleSubmit(({ date, text }) => {
     actions.update(musicId, { playlist, date, text });
-    actions.fetchAll();
+    actions.fetchAll("");
     closeModal();
   });
 
@@ -238,7 +238,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
                 {playlistState.playlists &&
                   playlistState.playlists.map((p) => (
                     <Option key={p.id} onClick={handleSelectOption}>
-                      {p.playlist}
+                      {p.name}
                     </Option>
                   ))}
               </OptionContainer>
