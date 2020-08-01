@@ -230,7 +230,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
         <Form onSubmit={onSubmit}>
           <SelectBoxWrap>
             <SelectBox onClick={handleClickSelectBox}>
-              {playlist ? playlist : state.musicDetail.playlist}
+              {state.musicDetail.playlist && state.musicDetail.playlist.name}
             </SelectBox>
             {open && (
               <OptionContainer>

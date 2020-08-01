@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, useCallback, useState } from "react";
+import React, { useEffect, ReactNode, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
@@ -248,6 +248,7 @@ const PlaylistItem: React.FC<PlaylistProps> = ({ playlist, children }) => {
 
   const handleClick = useCallback(() => {
     actions.fetchAll(playlist);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions.fetchAll]);
 
   return (
