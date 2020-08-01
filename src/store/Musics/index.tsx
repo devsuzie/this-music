@@ -17,7 +17,10 @@ export type Music = {
     id: string;
     title: string;
   };
-  playlist?: string;
+  playlist?: {
+    id: string;
+    name: string;
+  };
   date: string;
   text?: string;
 };
@@ -51,7 +54,10 @@ const INITIAL_STATE: State = {
       id: "",
       title: "",
     },
-    playlist: "",
+    playlist: {
+      id: "",
+      name: "",
+    },
     date: "",
     text: "",
   },
@@ -112,7 +118,7 @@ export const useMusicsContext = () => {
     (playlist) => {
       try {
         const musics = server.fetchAll(playlist);
-
+        console.log(musics);
         dispatch({
           type: ACTION_TYPES.FETCH_ALL,
           musics,

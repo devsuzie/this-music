@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import * as server from "@/server";
 
-export type Playlists = {
+export type Playlist = {
   id: string;
   name: string;
 };
@@ -20,10 +20,10 @@ enum ACTION_TYPES {
 
 type Action =
   | { type: ACTION_TYPES.CREATE_PLAYLIST }
-  | { type: ACTION_TYPES.FETCH_PLAYLISTS; playlists: Playlists[] };
+  | { type: ACTION_TYPES.FETCH_PLAYLISTS; playlists: Playlist[] };
 
 interface State {
-  playlists: Playlists[];
+  playlists: Playlist[];
 }
 
 const INITIAL_STATE: State = {

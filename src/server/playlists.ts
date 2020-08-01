@@ -1,6 +1,6 @@
-import { Playlists } from "@/store/Playlists";
+import { Playlist } from "@/store/Playlists";
 
-export const createPlaylist = (playlist: Playlists) => {
+export const createPlaylist = (playlist: Playlist) => {
   const response = localStorage.getItem("playlist");
   const playlists = response ? JSON.parse(response) : [];
   playlists.push(playlist);
