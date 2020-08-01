@@ -5,6 +5,7 @@ import { ThemeProvider } from "emotion-theming";
 
 import EditModal from "@/Modals/EditModal";
 import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
+import { Playlist } from "@/store/Playlists";
 
 interface Theme {
   colors: {
@@ -85,13 +86,13 @@ const PlayListUl = styled.ul`
   list-style: none;
 `;
 
-const PlayListLi = styled.li`
+const PlaylistLi = styled.li`
   display: block;
   color: ${theme.colors.white};
   font-weight: 100;
 `;
 
-const LiElement = styled.span`
+const StyledPlaylistItem = styled.span`
   display: inline-block;
   background-color: ${theme.colors.primaryDark};
   padding: 2px 15px;
@@ -227,6 +228,11 @@ interface MusicProps {
   children: ReactNode;
 }
 
+interface PlaylistProps {
+  playlist: Playlist;
+  children: ReactNode;
+}
+
 const MusicLi: React.FC<MusicProps> = ({ musicId, children }) => {
   const { openModal } = useModalStore();
 
@@ -237,23 +243,27 @@ const MusicLi: React.FC<MusicProps> = ({ musicId, children }) => {
   return <MusicCardLi onClick={handleClick}>{children}</MusicCardLi>;
 };
 
+const PlaylistItem: React.FC<PlaylistProps> = ({ playlist, children }) => {
+  const { state, ...actions } = useMusicsContext();
+
+  const handleClick = useCallback(() => {
+    actions.fetchAll(playlist);
+  }, [actions.fetchAll]);
+
+  return (
+    <StyledPlaylistItem onClick={handleClick}>{children}</StyledPlaylistItem>
+  );
+};
+
 export default () => {
   const { state, ...actions } = useMusicsContext();
   const { state: playlistSate, fetchPlaylists } = usePlaylistsContext();
 
   useEffect(() => {
-    actions.fetchAll("");
+    actions.fetchAll({ id: "0", name: "select" });
     fetchPlaylists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const handleClickPlaylist = useCallback(
-    (e: any) => {
-      const selectedPlaylist = e.target.innerHTML;
-      actions.fetchAll(selectedPlaylist);
-    },
-    [actions.fetchAll]
-  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -264,9 +274,9 @@ export default () => {
           <PlayListUl>
             {playlistSate.playlists &&
               playlistSate.playlists.map((p) => (
-                <PlayListLi key={p.id}>
-                  <LiElement onClick={handleClickPlaylist}>{p.name}</LiElement>
-                </PlayListLi>
+                <PlaylistLi key={p.id}>
+                  <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
+                </PlaylistLi>
               ))}
           </PlayListUl>
         </PlayListContainer>

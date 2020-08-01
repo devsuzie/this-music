@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
+import { Playlist } from "@/store/Playlists";
 import {
   useLoadingStore,
   useModalStore,
@@ -264,7 +265,7 @@ const OptionContainer = styled.div`
   box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const Option = styled.div`
+const StyledOption = styled.div`
   color: ${theme.colors.black};
   height: 40px;
   line-height: 40px;
@@ -291,6 +292,27 @@ const AddOption = styled.div`
     background-color: ${theme.colors.white};
   }
 `;
+
+interface OptionProps {
+  playlist: any;
+  children: ReactNode;
+  setPlaylist: any;
+  setOpen: any;
+}
+
+const Option: React.FC<OptionProps> = ({
+  playlist,
+  setPlaylist,
+  setOpen,
+  children,
+}) => {
+  const handleClick = () => {
+    setPlaylist(playlist);
+    setOpen(false);
+  };
+
+  return <StyledOption onClick={handleClick}>{children}</StyledOption>;
+};
 
 export default () => {
   const { state, ...actions } = useSearchMusicContext();
@@ -350,29 +372,26 @@ export default () => {
     openModal(<CreatePlaylistModal key="create-playlist-modal" />);
   };
 
-  const [playlist, setPlaylist] = useState("select playlist");
-
-  const handleSelectOption = (e: any) => {
-    // innerHTML 말고 다른 방식으로 playlist object 가져오도록..!
-    setPlaylist(e.target.innerHTML);
-    setOpen(false);
-  };
+  const [playlist, setPlaylist] = useState<Playlist>({
+    id: "0",
+    name: "selectPlaylist",
+  });
 
   const onSubmit = handleSubmit(({ text, musicId, date }) => {
-    state.musics.forEach((searchedList) => {
-      if (searchedList.id === musicId) {
+    state.musics.forEach((searchedMusic) => {
+      if (searchedMusic.id === musicId) {
         const musics = {
           id: uuidv4(),
           music: {
-            albumCover: searchedList.albumCover,
-            albumId: searchedList.albumId,
-            artist: searchedList.artist,
-            id: searchedList.id,
-            title: searchedList.title,
+            albumCover: searchedMusic.albumCover,
+            albumId: searchedMusic.albumId,
+            artist: searchedMusic.artist,
+            id: searchedMusic.id,
+            title: searchedMusic.title,
           },
           playlist: {
-            id: 2,
-            name: "playlist",
+            id: playlist.id,
+            name: playlist.name,
           },
           date,
           text,
@@ -411,22 +430,22 @@ export default () => {
                   </SpinnerContainer>
                 )}
                 <SearchedMusicUl>
-                  {state.musics.map((searchedList) => (
-                    <SearchedMusicLi key={searchedList.id}>
-                      <Label htmlFor={searchedList.id}>
-                        <AlbumCover src={searchedList.albumCover} />
+                  {state.musics.map((searchedMusic) => (
+                    <SearchedMusicLi key={searchedMusic.id}>
+                      <Label htmlFor={searchedMusic.id}>
+                        <AlbumCover src={searchedMusic.albumCover} />
                         <AlbumInfo>
-                          <AlbumInfoEl>{searchedList.title}</AlbumInfoEl>
-                          <AlbumInfoEl>{searchedList.artist}</AlbumInfoEl>
+                          <AlbumInfoEl>{searchedMusic.title}</AlbumInfoEl>
+                          <AlbumInfoEl>{searchedMusic.artist}</AlbumInfoEl>
                         </AlbumInfo>
                         <SelectInput
                           type="radio"
-                          id={searchedList.id}
+                          id={searchedMusic.id}
                           name="musicId"
                           ref={register({
                             required: true,
                           })}
-                          value={searchedList.id}
+                          value={searchedMusic.id}
                         ></SelectInput>
                         <SelectButton className="checkmark">
                           select
@@ -440,16 +459,18 @@ export default () => {
               <Step2>
                 <SelectBoxWrap>
                   <SelectBox onClick={handleClickSelectBox}>
-                    {playlist}
+                    {playlist.name}
                   </SelectBox>
                   {open && (
                     <OptionContainer>
-                      <Option onClick={handleSelectOption}>
-                        카테고리 선택안함
-                      </Option>
                       {playlistState.playlists &&
                         playlistState.playlists.map((p) => (
-                          <Option key={p.id} onClick={handleSelectOption}>
+                          <Option
+                            key={p.id}
+                            playlist={p}
+                            setPlaylist={setPlaylist}
+                            setOpen={setOpen}
+                          >
                             {p.name}
                           </Option>
                         ))}
