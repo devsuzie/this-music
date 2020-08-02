@@ -261,18 +261,27 @@ export default () => {
   const { state: playlistSate, fetchPlaylists } = usePlaylistsContext();
 
   useEffect(() => {
-    actions.fetchAll({ id: "0", name: "select" });
+    actions.fetchAll({ id: "0", name: "whole" });
     fetchPlaylists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleClick = useCallback(() => {
+    actions.fetchAll({ id: "0", name: "whole" });
+  }, [actions.fetchAll]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Logo>this.music</Logo>
+        <Logo onClick={handleClick}>this.music</Logo>
         <PlayListContainer>
           <PlayListTitle>Playlist</PlayListTitle>
           <PlayListUl>
+            <PlaylistLi>
+              <StyledPlaylistItem onClick={handleClick}>
+                전체보기
+              </StyledPlaylistItem>
+            </PlaylistLi>
             {playlistSate.playlists &&
               playlistSate.playlists.map((p) => (
                 <PlaylistLi key={p.id}>
