@@ -31,3 +31,16 @@ input[type=radio]:checked+.checkmark {
 input[type=radio] {
     display: none;
 }
+
+input[type=radio]+.selectPlaylist {
+    display: inline-block;
+    background-color: #DBC9C9;
+    padding: 2px 15px;
+    border-radius: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+input[type=radio]:checked+.selectPlaylist {
+    background-color: #DDADAD;
+}

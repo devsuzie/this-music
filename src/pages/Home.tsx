@@ -92,17 +92,14 @@ const PlaylistLi = styled.li`
   font-weight: 100;
 `;
 
-const StyledPlaylistItem = styled.span`
-  display: inline-block;
-  background-color: ${theme.colors.primaryDark};
-  padding: 2px 15px;
-  border-radius: 10px;
-  margin: 5px 0;
+const StyledPlaylistItem = styled.span``;
 
-  &:hover {
-    background-color: ${theme.colors.active};
-    cursor: pointer;
-  }
+const SelectInput = styled.input``;
+
+const Label = styled.label`
+  position: relative;
+  width: 100%;
+  margin: 0;
 `;
 
 const MainContainer = styled.div`
@@ -252,7 +249,9 @@ const PlaylistItem: React.FC<PlaylistProps> = ({ playlist, children }) => {
   }, [actions.fetchAll]);
 
   return (
-    <StyledPlaylistItem onClick={handleClick}>{children}</StyledPlaylistItem>
+    <StyledPlaylistItem onClick={handleClick} className="selectPlaylist">
+      {children}
+    </StyledPlaylistItem>
   );
 };
 
@@ -277,17 +276,36 @@ export default () => {
         <PlayListContainer>
           <PlayListTitle>Playlist</PlayListTitle>
           <PlayListUl>
-            <PlaylistLi>
-              <StyledPlaylistItem onClick={handleClick}>
-                전체보기
-              </StyledPlaylistItem>
+            <PlaylistLi key="0">
+              <Label htmlFor="0">
+                <SelectInput
+                  type="radio"
+                  id="0"
+                  name="playlist"
+                  value="0"
+                ></SelectInput>
+                <StyledPlaylistItem
+                  className="selectPlaylist"
+                  onClick={handleClick}
+                >
+                  전체 목록
+                </StyledPlaylistItem>
+              </Label>
             </PlaylistLi>
-            {playlistSate.playlists &&
-              playlistSate.playlists.map((p) => (
-                <PlaylistLi key={p.id}>
+
+            {playlistSate.playlists.map((p) => (
+              <PlaylistLi key={p.id}>
+                <Label htmlFor={p.id}>
+                  <SelectInput
+                    type="radio"
+                    id={p.id}
+                    name="playlist"
+                    value={p.id}
+                  ></SelectInput>
                   <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
-                </PlaylistLi>
-              ))}
+                </Label>
+              </PlaylistLi>
+            ))}
           </PlayListUl>
         </PlayListContainer>
         <MainContainer>
