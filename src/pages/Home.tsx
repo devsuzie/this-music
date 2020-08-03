@@ -270,10 +270,14 @@ export default () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions.fetchAll]);
 
+  const handleClickLogo = useCallback(() => {
+    window.location.reload();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
-        <Logo onClick={handleClick}>this.music</Logo>
+        <Logo onClick={handleClickLogo}>this.music</Logo>
         <PlayListContainer>
           <PlayListTitle>Playlist</PlayListTitle>
           <PlayListUl>
