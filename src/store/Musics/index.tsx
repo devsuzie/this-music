@@ -118,7 +118,7 @@ export const useMusicsContext = () => {
     (playlist) => {
       try {
         const musics = server.fetchAll(playlist);
-        console.log(musics);
+
         dispatch({
           type: ACTION_TYPES.FETCH_ALL,
           musics,

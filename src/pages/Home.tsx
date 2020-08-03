@@ -267,6 +267,7 @@ export default () => {
 
   const handleClick = useCallback(() => {
     actions.fetchAll({ id: "0", name: "whole" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions.fetchAll]);
 
   return (
