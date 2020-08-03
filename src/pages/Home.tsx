@@ -283,6 +283,7 @@ export default () => {
                   id="0"
                   name="playlist"
                   value="0"
+                  defaultChecked
                 ></SelectInput>
                 <StyledPlaylistItem
                   className="selectPlaylist"
