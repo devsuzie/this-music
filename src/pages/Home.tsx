@@ -107,31 +107,7 @@ const MainContainer = styled.div`
   width: calc(100% - 400px);
   float: right;
   margin-left: 50px;
-`;
-
-const SearchForm = styled.form``;
-
-const InputSearch = styled.input`
-  background-color: ${theme.colors.primaryDark};
-  color: ${theme.colors.white};
-  border: none;
-  line-height: 30px;
-  height: 30px;
-  border-radius: 10px;
-  padding: 0 15px;
-  min-width: 280px;
-  margin: 5px 0 50px 0;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const Button = styled.button`
-  color: ${theme.colors.highlight};
-  border: none;
-  background: none;
-  font-size: 16px;
+  padding-top: 80px;
 `;
 
 const MusicCardUl = styled.ul`
@@ -315,10 +291,6 @@ export default () => {
           </PlayListUl>
         </PlayListContainer>
         <MainContainer>
-          <SearchForm>
-            <InputSearch type="text" />
-            <Button>search</Button>
-          </SearchForm>
           <MusicCardUl>
             {state.musics &&
               state.musics.map((m, index) => (
