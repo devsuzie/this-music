@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 
 import { ModalBody, ModalHeader, Modal } from "@/components/Modal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
+import { Playlist } from "@/store/Playlists";
 import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
 
 const theme = {
@@ -150,7 +151,7 @@ const OptionContainer = styled.div`
   box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const Option = styled.div`
+const StyledOption = styled.div`
   color: ${theme.colors.black};
   height: 40px;
   line-height: 40px;
@@ -162,9 +163,30 @@ const Option = styled.div`
 `;
 
 type FormData = {
-  playlist?: string;
+  playlist?: Playlist;
   date?: any;
   text?: string;
+};
+
+interface OptionProps {
+  playlist: Playlist;
+  children: ReactNode;
+  setPlaylist: any;
+  setOpen: any;
+}
+
+const Option: React.FC<OptionProps> = ({
+  playlist,
+  setPlaylist,
+  setOpen,
+  children,
+}) => {
+  const handleClick = () => {
+    setPlaylist(playlist);
+    setOpen(false);
+  };
+
+  return <StyledOption onClick={handleClick}>{children}</StyledOption>;
 };
 
 export default ({ musicId }: { musicId: string | undefined }) => {
@@ -178,7 +200,6 @@ export default ({ musicId }: { musicId: string | undefined }) => {
 
   const [open, setOpen] = useState(false);
   const [dateQuery, setDateQuery] = useState(dateValue);
-  const [playlist, setPlaylist] = useState("");
 
   useEffect(() => {
     fetchPlaylists();
@@ -187,11 +208,6 @@ export default ({ musicId }: { musicId: string | undefined }) => {
 
   const handleClickSelectBox = () => {
     setOpen(!open);
-  };
-
-  const handleSelectOption = (e: any) => {
-    setPlaylist(e.target.innerHTML);
-    setOpen(false);
   };
 
   const handleChangeDate = (e: any) => {
@@ -215,9 +231,20 @@ export default ({ musicId }: { musicId: string | undefined }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.musicDetail]);
 
+  const [playlist, setPlaylist] = useState<Playlist>({
+    id: "0",
+    name: "select playlist",
+  });
+
   const onSubmit = handleSubmit(({ date, text }) => {
-    actions.update(musicId, { playlist, date, text });
-    actions.fetchAll("");
+    if (playlist.id === "0") {
+      const playlist = state.musicDetail.playlist;
+      actions.update(musicId, { playlist, date, text });
+    } else {
+      actions.update(musicId, { playlist, date, text });
+    }
+
+    actions.fetchAll(state.musicDetail.playlist);
     closeModal();
   });
 
@@ -230,14 +257,20 @@ export default ({ musicId }: { musicId: string | undefined }) => {
         <Form onSubmit={onSubmit}>
           <SelectBoxWrap>
             <SelectBox onClick={handleClickSelectBox}>
-              {state.musicDetail.playlist && state.musicDetail.playlist.name}
+              {playlist.id === "0"
+                ? state.musicDetail.playlist?.name
+                : playlist.name}
             </SelectBox>
             {open && (
               <OptionContainer>
-                <Option onClick={handleSelectOption}>카테고리 선택안함</Option>
                 {playlistState.playlists &&
                   playlistState.playlists.map((p) => (
-                    <Option key={p.id} onClick={handleSelectOption}>
+                    <Option
+                      key={p.id}
+                      playlist={p}
+                      setPlaylist={setPlaylist}
+                      setOpen={setOpen}
+                    >
                       {p.name}
                     </Option>
                   ))}
