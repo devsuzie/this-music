@@ -275,19 +275,20 @@ export default () => {
               </Label>
             </PlaylistLi>
 
-            {playlistSate.playlists.map((p) => (
-              <PlaylistLi key={p.id}>
-                <Label htmlFor={p.id}>
-                  <SelectInput
-                    type="radio"
-                    id={p.id}
-                    name="playlist"
-                    value={p.id}
-                  ></SelectInput>
-                  <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
-                </Label>
-              </PlaylistLi>
-            ))}
+            {playlistSate.playlists &&
+              playlistSate.playlists.map((p) => (
+                <PlaylistLi key={p.id}>
+                  <Label htmlFor={p.id}>
+                    <SelectInput
+                      type="radio"
+                      id={p.id}
+                      name="playlist"
+                      value={p.id}
+                    ></SelectInput>
+                    <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
+                  </Label>
+                </PlaylistLi>
+              ))}
           </PlayListUl>
         </PlayListContainer>
         <MainContainer>
