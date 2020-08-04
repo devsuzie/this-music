@@ -249,7 +249,7 @@ const Label = styled.label`
 
 type FormData = {
   musicId: string;
-  playlist?: string;
+  playlist?: Playlist;
   date?: any;
   text: string;
 };
@@ -294,7 +294,7 @@ const AddOption = styled.div`
 `;
 
 interface OptionProps {
-  playlist: any;
+  playlist: Playlist;
   children: ReactNode;
   setPlaylist: any;
   setOpen: any;
