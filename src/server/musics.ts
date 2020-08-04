@@ -40,7 +40,7 @@ export const fetchById = (id: string) => {
 
 export const update = (
   id: string,
-  { playlist, date, text }: { playlist: string; date: string; text: string }
+  { playlist, date, text }: { playlist: Playlist; date: string; text: string }
 ) => {
   const response = localStorage.getItem("musics");
   const musics = response ? JSON.parse(response) : [];

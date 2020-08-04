@@ -35,7 +35,7 @@ enum ACTION_TYPES {
 type Action =
   | { type: ACTION_TYPES.CREATE }
   | { type: ACTION_TYPES.FETCH_ALL; musics: Music[] }
-  | { type: ACTION_TYPES.FETCH_BY_ID; musicDetail: any }
+  | { type: ACTION_TYPES.FETCH_BY_ID; musicDetail: Music }
   | { type: ACTION_TYPES.UPDATE };
 
 interface State {
