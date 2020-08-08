@@ -245,6 +245,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
     }
 
     actions.fetchAll(state.musicDetail.playlist);
+
     closeModal();
   });
 
