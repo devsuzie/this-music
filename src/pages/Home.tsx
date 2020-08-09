@@ -1,44 +1,12 @@
 import React, { useEffect, ReactNode, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "emotion-theming";
 
 import Greeting from "@/components/Greeting";
 import EditModal from "@/Modals/EditModal";
 import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
 import { Playlist } from "@/store/Playlists";
-
-interface Theme {
-  colors: {
-    primary: string;
-    primaryLight: string;
-    primaryDark: string;
-    active: string;
-    highlight: string;
-    white: string;
-    black: string;
-  };
-  fonts: {
-    futura: string;
-    avenir: string;
-  };
-}
-
-const theme: Theme = {
-  colors: {
-    primary: "#E6DEDE",
-    primaryLight: "#EDE7E7",
-    primaryDark: "#DBC9C9",
-    active: "#DDADAD",
-    highlight: "#1300FF",
-    white: "#FFFFFF",
-    black: "#121212",
-  },
-  fonts: {
-    futura: "Futura",
-    avenir: "Avenir",
-  },
-};
+import theme from "@/theme";
 
 const AddLink = styled(Link)`
   font-family: ${theme.fonts.futura}, sans-serif;
@@ -283,78 +251,76 @@ export default () => {
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <Logo onClick={handleClickLogo}>this.music</Logo>
-        {state.musics ? (
-          <>
-            <PlayListContainer>
-              <PlayListTitle>Playlist</PlayListTitle>
-              <PlaylistUl>
-                <PlaylistLi key="0">
-                  <Label htmlFor="0">
-                    <SelectInput
-                      type="radio"
-                      id="0"
-                      name="playlist"
-                      value="0"
-                      onChange={handleChange}
-                      defaultChecked
-                    ></SelectInput>
-                    <StyledPlaylistItem
-                      className="selectPlaylist"
-                      onClick={handleClick}
-                    >
-                      전체 목록
-                    </StyledPlaylistItem>
-                  </Label>
-                </PlaylistLi>
+    <Container>
+      <Logo onClick={handleClickLogo}>this.music</Logo>
+      {state.musics ? (
+        <>
+          <PlayListContainer>
+            <PlayListTitle>Playlist</PlayListTitle>
+            <PlaylistUl>
+              <PlaylistLi key="0">
+                <Label htmlFor="0">
+                  <SelectInput
+                    type="radio"
+                    id="0"
+                    name="playlist"
+                    value="0"
+                    onChange={handleChange}
+                    defaultChecked
+                  ></SelectInput>
+                  <StyledPlaylistItem
+                    className="selectPlaylist"
+                    onClick={handleClick}
+                  >
+                    전체 목록
+                  </StyledPlaylistItem>
+                </Label>
+              </PlaylistLi>
 
-                {playlistSate.playlists &&
-                  playlistSate.playlists.map((p) => (
-                    <PlaylistLi key={p.id}>
-                      <Label htmlFor={p.id}>
-                        <SelectInput
-                          type="radio"
-                          id={p.id}
-                          name="playlist"
-                          value={p.id}
-                          onChange={handleChange}
-                        ></SelectInput>
-                        <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
-                      </Label>
-                    </PlaylistLi>
-                  ))}
-              </PlaylistUl>
-            </PlayListContainer>
-            <MainContainer>
-              <MusicCardUl>
-                {state.musics &&
-                  state.musics.map((m, index) => (
-                    <MusicLi
-                      key={index}
-                      musicId={m.id}
-                      selectedPlaylist={selectedPlaylist}
-                    >
-                      <MusicInfo>
-                        <AlbumCover src={m.music.albumCover} />
-                        <DetailContainer>
-                          <DetailEl>{m.music.artist}</DetailEl>
-                          <DetailEl>{m.music.title}</DetailEl>
-                          <Date>{m.date}</Date>
-                        </DetailContainer>
-                      </MusicInfo>
-                      <MusicDesc>{m.text}</MusicDesc>
-                    </MusicLi>
-                  ))}
-              </MusicCardUl>
-              <AddLink to="/add-music">add</AddLink>
-            </MainContainer>
-          </>
-        ) : (
-          <Greeting />
-        )}
-      </Container>
-    </ThemeProvider>
+              {playlistSate.playlists &&
+                playlistSate.playlists.map((p) => (
+                  <PlaylistLi key={p.id}>
+                    <Label htmlFor={p.id}>
+                      <SelectInput
+                        type="radio"
+                        id={p.id}
+                        name="playlist"
+                        value={p.id}
+                        onChange={handleChange}
+                      ></SelectInput>
+                      <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
+                    </Label>
+                  </PlaylistLi>
+                ))}
+            </PlaylistUl>
+          </PlayListContainer>
+          <MainContainer>
+            <MusicCardUl>
+              {state.musics &&
+                state.musics.map((m, index) => (
+                  <MusicLi
+                    key={index}
+                    musicId={m.id}
+                    selectedPlaylist={selectedPlaylist}
+                  >
+                    <MusicInfo>
+                      <AlbumCover src={m.music.albumCover} />
+                      <DetailContainer>
+                        <DetailEl>{m.music.artist}</DetailEl>
+                        <DetailEl>{m.music.title}</DetailEl>
+                        <Date>{m.date}</Date>
+                      </DetailContainer>
+                    </MusicInfo>
+                    <MusicDesc>{m.text}</MusicDesc>
+                  </MusicLi>
+                ))}
+            </MusicCardUl>
+            <AddLink to="/add-music">add</AddLink>
+          </MainContainer>
+        </>
+      ) : (
+        <Greeting />
+      )}
+    </Container>
   );
 };

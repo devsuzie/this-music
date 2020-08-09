@@ -7,22 +7,7 @@ import { ModalBody, ModalHeader, Modal } from "@/components/Modal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
 import { Playlist } from "@/store/Playlists";
 import { useModalStore, useMusicsContext, usePlaylistsContext } from "@/store";
-
-const theme = {
-  colors: {
-    primary: "#E6DEDE",
-    primaryLight: "#EDE7E7",
-    primaryDark: "#DBC9C9",
-    active: "#DDADAD",
-    highlight: "#1300FF",
-    white: "#FFFFFF",
-    black: "#121212",
-  },
-  fonts: {
-    futura: "Futura",
-    avenir: "Avenir",
-  },
-};
+import theme from "@/theme";
 
 const CloseButton = styled.button`
   position: absolute;

@@ -7,9 +7,7 @@ import styled from "@emotion/styled";
 import { useModalStore } from "./store";
 import routes from "./routes";
 
-const Page = styled(Container)`
-  padding-top: ${({ theme }) => (theme as any).constants.NAV_HEIGHT};
-`;
+const Page = styled(Container)``;
 
 export default () => {
   const {

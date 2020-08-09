@@ -6,25 +6,10 @@ import { v4 as uuidv4 } from "uuid";
 
 import { ModalBody, ModalHeader, Modal } from "../components/Modal";
 import { useModalStore, usePlaylistsContext } from "../store";
+import theme from "@/theme";
 
 type FormData = {
   playlist: string;
-};
-
-const theme = {
-  colors: {
-    primary: "#E6DEDE",
-    primaryLight: "#EDE7E7",
-    primaryDark: "#DBC9C9",
-    active: "#DDADAD",
-    highlight: "#1300FF",
-    white: "#FFFFFF",
-    black: "#121212",
-  },
-  fonts: {
-    futura: "Futura",
-    avenir: "Avenir",
-  },
 };
 
 const Button = styled.button`

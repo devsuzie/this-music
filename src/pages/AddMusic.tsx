@@ -2,7 +2,6 @@ import React, { ReactNode, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
-import { ThemeProvider } from "emotion-theming";
 import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
@@ -17,22 +16,7 @@ import {
   useSearchMusicContext,
   usePlaylistsContext,
 } from "@/store";
-
-const theme = {
-  colors: {
-    primary: "#E6DEDE",
-    primaryLight: "#EDE7E7",
-    primaryDark: "#DBC9C9",
-    active: "#DDADAD",
-    highlight: "#1300FF",
-    white: "#FFFFFF",
-    black: "#121212",
-  },
-  fonts: {
-    futura: "Futura",
-    avenir: "Avenir",
-  },
-};
+import theme from "@/theme";
 
 const AddMusicWrap = styled.div`
   width: 600px;
@@ -406,99 +390,95 @@ export default () => {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <Logo>
-          <StyledLink to="/">this.music</StyledLink>
-        </Logo>
+    <Container>
+      <Logo>
+        <StyledLink to="/">this.music</StyledLink>
+      </Logo>
 
-        <AddMusicWrap>
-          <Form onSubmit={onSubmit}>
-            <StepContainer>
-              <StepTitle>1. Search for music you want to add</StepTitle>
-              <Step1>
-                <SearchContainer>
-                  <InpuSearch
-                    type="text"
-                    onChange={handleChange}
-                    value={musicQuery}
-                  />
-                  <Button onClick={handleClickSearch}>search</Button>
-                </SearchContainer>
-                {loadingState.loading && (
-                  <SpinnerContainer>
-                    <Spinner animation="border" variant="light" />
-                  </SpinnerContainer>
-                )}
-                <SearchedMusicUl>
-                  {state.searchedMusics.map((searchedMusic) => (
-                    <SearchedMusicLi key={searchedMusic.id}>
-                      <Label htmlFor={searchedMusic.id}>
-                        <AlbumCover src={searchedMusic.albumCover} />
-                        <AlbumInfo>
-                          <AlbumInfoEl>{searchedMusic.title}</AlbumInfoEl>
-                          <AlbumInfoEl>{searchedMusic.artist}</AlbumInfoEl>
-                        </AlbumInfo>
-                        <SelectInput
-                          type="radio"
-                          id={searchedMusic.id}
-                          name="musicId"
-                          ref={register({
-                            required: true,
-                          })}
-                          value={searchedMusic.id}
-                        ></SelectInput>
-                        <SelectButton className="checkmark">
-                          select
-                        </SelectButton>
-                      </Label>
-                    </SearchedMusicLi>
-                  ))}
-                </SearchedMusicUl>
-              </Step1>
-              <StepTitle>2. Sélect a Category & Date</StepTitle>
-              <Step2>
-                <SelectBoxWrap>
-                  <SelectBox onClick={handleClickSelectBox}>
-                    {playlist.name}
-                  </SelectBox>
-                  {open && (
-                    <OptionContainer>
-                      {playlistState.playlists &&
-                        playlistState.playlists.map((p) => (
-                          <Option
-                            key={p.id}
-                            playlist={p}
-                            setPlaylist={setPlaylist}
-                            setOpen={setOpen}
-                          >
-                            {p.name}
-                          </Option>
-                        ))}
-                      <AddOption onClick={handleClickAddOption}>
-                        Add playlist
-                      </AddOption>
-                    </OptionContainer>
-                  )}
-                </SelectBoxWrap>
-                <DatePicker
-                  id="date"
-                  name="date"
-                  onChange={handleChangeDate}
-                  type="date"
-                  value={dateQuery}
-                  ref={register}
+      <AddMusicWrap>
+        <Form onSubmit={onSubmit}>
+          <StepContainer>
+            <StepTitle>1. Search for music you want to add</StepTitle>
+            <Step1>
+              <SearchContainer>
+                <InpuSearch
+                  type="text"
+                  onChange={handleChange}
+                  value={musicQuery}
                 />
-              </Step2>
-              <StepTitle>3. Write Something!</StepTitle>
-              <Step3>
-                <TextArea cols={30} rows={10} name="text" ref={register} />
-              </Step3>
-            </StepContainer>
-            <SaveButton type="submit">Save It!</SaveButton>
-          </Form>
-        </AddMusicWrap>
-      </Container>
-    </ThemeProvider>
+                <Button onClick={handleClickSearch}>search</Button>
+              </SearchContainer>
+              {loadingState.loading && (
+                <SpinnerContainer>
+                  <Spinner animation="border" variant="light" />
+                </SpinnerContainer>
+              )}
+              <SearchedMusicUl>
+                {state.searchedMusics.map((searchedMusic) => (
+                  <SearchedMusicLi key={searchedMusic.id}>
+                    <Label htmlFor={searchedMusic.id}>
+                      <AlbumCover src={searchedMusic.albumCover} />
+                      <AlbumInfo>
+                        <AlbumInfoEl>{searchedMusic.title}</AlbumInfoEl>
+                        <AlbumInfoEl>{searchedMusic.artist}</AlbumInfoEl>
+                      </AlbumInfo>
+                      <SelectInput
+                        type="radio"
+                        id={searchedMusic.id}
+                        name="musicId"
+                        ref={register({
+                          required: true,
+                        })}
+                        value={searchedMusic.id}
+                      ></SelectInput>
+                      <SelectButton className="checkmark">select</SelectButton>
+                    </Label>
+                  </SearchedMusicLi>
+                ))}
+              </SearchedMusicUl>
+            </Step1>
+            <StepTitle>2. Sélect a Category & Date</StepTitle>
+            <Step2>
+              <SelectBoxWrap>
+                <SelectBox onClick={handleClickSelectBox}>
+                  {playlist.name}
+                </SelectBox>
+                {open && (
+                  <OptionContainer>
+                    {playlistState.playlists &&
+                      playlistState.playlists.map((p) => (
+                        <Option
+                          key={p.id}
+                          playlist={p}
+                          setPlaylist={setPlaylist}
+                          setOpen={setOpen}
+                        >
+                          {p.name}
+                        </Option>
+                      ))}
+                    <AddOption onClick={handleClickAddOption}>
+                      Add playlist
+                    </AddOption>
+                  </OptionContainer>
+                )}
+              </SelectBoxWrap>
+              <DatePicker
+                id="date"
+                name="date"
+                onChange={handleChangeDate}
+                type="date"
+                value={dateQuery}
+                ref={register}
+              />
+            </Step2>
+            <StepTitle>3. Write Something!</StepTitle>
+            <Step3>
+              <TextArea cols={30} rows={10} name="text" ref={register} />
+            </Step3>
+          </StepContainer>
+          <SaveButton type="submit">Save It!</SaveButton>
+        </Form>
+      </AddMusicWrap>
+    </Container>
   );
 };

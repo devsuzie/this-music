@@ -1,39 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import { ThemeProvider } from "emotion-theming";
 
-interface Theme {
-  colors: {
-    primary: string;
-    primaryLight: string;
-    primaryDark: string;
-    active: string;
-    highlight: string;
-    white: string;
-    black: string;
-  };
-  fonts: {
-    futura: string;
-    avenir: string;
-  };
-}
-
-const theme: Theme = {
-  colors: {
-    primary: "#E6DEDE",
-    primaryLight: "#EDE7E7",
-    primaryDark: "#DBC9C9",
-    active: "#DDADAD",
-    highlight: "#1300FF",
-    white: "#FFFFFF",
-    black: "#121212",
-  },
-  fonts: {
-    futura: "Futura",
-    avenir: "Avenir",
-  },
-};
+import theme from "@/theme";
 
 const Container = styled.div`
   margin: 100px auto;
@@ -82,15 +51,13 @@ const Paragraph = styled.p`
 
 export default () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Container>
-        <MusicIcon src="/assets/music-icon.png" />
-        <Paragraph>
-          Seems like you don’t have any music yet! <br />
-          Click the below button
-        </Paragraph>
-        <LinkButton to="/add-music">Add music</LinkButton>
-      </Container>
-    </ThemeProvider>
+    <Container>
+      <MusicIcon src="/assets/music-icon.png" />
+      <Paragraph>
+        Seems like you don’t have any music yet! <br />
+        Click the below button
+      </Paragraph>
+      <LinkButton to="/add-music">Add music</LinkButton>
+    </Container>
   );
 };
