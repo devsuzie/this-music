@@ -316,8 +316,8 @@ const Option: React.FC<OptionProps> = ({
 
 export default () => {
   const { state, ...actions } = useSearchMusicContext();
-  const { create, fetchAll } = useMusicsContext();
-  const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
+  const { ...musicsActions } = useMusicsContext();
+  const { state: playlistState, ...playlistActions } = usePlaylistsContext();
   const { register, handleSubmit } = useForm<FormData>();
   const { openModal } = useModalStore();
   const {
@@ -329,8 +329,8 @@ export default () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetchPlaylists();
     actions.clear();
+    playlistActions.fetchPlaylists();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -398,10 +398,10 @@ export default () => {
           text,
         };
 
-        create(musics);
+        musicsActions.create(musics);
       }
     });
-    fetchAll("");
+    musicsActions.fetchAll("");
     history.push("/");
   });
 
