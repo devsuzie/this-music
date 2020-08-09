@@ -330,6 +330,7 @@ export default () => {
 
   useEffect(() => {
     fetchPlaylists();
+    actions.clear();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
