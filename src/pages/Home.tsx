@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode, useCallback } from "react";
+import React, { useEffect, ReactNode, useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
@@ -198,6 +198,7 @@ const AddLink = styled(Link)`
 `;
 
 interface MusicProps {
+  selectedPlaylist?: any;
   musicId?: string;
   children: ReactNode;
 }
@@ -207,11 +208,21 @@ interface PlaylistProps {
   children: ReactNode;
 }
 
-const MusicLi: React.FC<MusicProps> = ({ musicId, children }) => {
+const MusicLi: React.FC<MusicProps> = ({
+  musicId,
+  selectedPlaylist,
+  children,
+}) => {
   const { openModal } = useModalStore();
 
   const handleClick = () => {
-    openModal(<EditModal key="edit-modal" musicId={musicId} />);
+    openModal(
+      <EditModal
+        key="edit-modal"
+        musicId={musicId}
+        selectedPlaylist={selectedPlaylist}
+      />
+    );
   };
 
   return <MusicCardLi onClick={handleClick}>{children}</MusicCardLi>;
@@ -251,6 +262,26 @@ export default () => {
     window.location.reload();
   }, []);
 
+  const INITIAL_STATE = {
+    id: "0",
+    name: "whole",
+  };
+
+  const [selectedPlaylist, setSelectedPlaylist] = useState(INITIAL_STATE);
+
+  const handleChange = useCallback(
+    (e: any) => {
+      playlistSate.playlists.forEach((p) => {
+        if (p.id === e.target.value) {
+          setSelectedPlaylist(p);
+        } else if (e.target.value === "0") {
+          setSelectedPlaylist(INITIAL_STATE);
+        }
+      });
+    },
+    [playlistSate.playlists, INITIAL_STATE]
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <Container>
@@ -267,6 +298,7 @@ export default () => {
                       id="0"
                       name="playlist"
                       value="0"
+                      onChange={handleChange}
                       defaultChecked
                     ></SelectInput>
                     <StyledPlaylistItem
@@ -287,6 +319,7 @@ export default () => {
                           id={p.id}
                           name="playlist"
                           value={p.id}
+                          onChange={handleChange}
                         ></SelectInput>
                         <PlaylistItem playlist={p}>{p.name}</PlaylistItem>
                       </Label>
@@ -298,7 +331,11 @@ export default () => {
               <MusicCardUl>
                 {state.musics &&
                   state.musics.map((m, index) => (
-                    <MusicLi key={index} musicId={m.id}>
+                    <MusicLi
+                      key={index}
+                      musicId={m.id}
+                      selectedPlaylist={selectedPlaylist}
+                    >
                       <MusicInfo>
                         <AlbumCover src={m.music.albumCover} />
                         <DetailContainer>

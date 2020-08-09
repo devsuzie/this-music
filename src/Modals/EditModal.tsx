@@ -189,7 +189,13 @@ const Option: React.FC<OptionProps> = ({
   return <StyledOption onClick={handleClick}>{children}</StyledOption>;
 };
 
-export default ({ musicId }: { musicId: string | undefined }) => {
+export default ({
+  musicId,
+  selectedPlaylist,
+}: {
+  musicId: string | undefined;
+  selectedPlaylist: any | undefined;
+}) => {
   const { state, ...actions } = useMusicsContext();
   const { state: playlistState, fetchPlaylists } = usePlaylistsContext();
   const { closeModal } = useModalStore();
@@ -243,8 +249,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
     } else {
       actions.update(musicId, { playlist, date, text });
     }
-
-    actions.fetchAll(state.musicDetail.playlist);
+    actions.fetchAll(selectedPlaylist);
 
     closeModal();
   });
@@ -287,7 +292,7 @@ export default ({ musicId }: { musicId: string | undefined }) => {
             ref={register}
           />
           <TextArea cols={30} rows={10} name="text" ref={register} />
-          <SubmitButton>Save It!</SubmitButton>
+          <SubmitButton type="submit">Save It!</SubmitButton>
         </Form>
       </StyledModalBody>
       <CloseButton onClick={handleClose}>닫기</CloseButton>
