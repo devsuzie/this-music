@@ -124,6 +124,12 @@ const MusicCardLi = styled.li`
 
 const MusicDesc = styled.p`
   margin-bottom: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  height: 65px;
 `;
 
 const MusicInfo = styled.div`
