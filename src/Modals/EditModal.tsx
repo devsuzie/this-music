@@ -149,15 +149,15 @@ const Title = styled.h3`
 
 type FormData = {
   playlist?: Playlist;
-  date?: any;
+  date?: Date | string;
   text?: string;
 };
 
 interface OptionProps {
   playlist: Playlist;
   children: ReactNode;
-  setPlaylist: any;
-  setOpen: any;
+  setPlaylist: (palylist: Playlist) => void;
+  setOpen: (arg0: boolean) => void;
 }
 
 const Option: React.FC<OptionProps> = ({
@@ -179,7 +179,7 @@ export default ({
   selectedPlaylist,
 }: {
   musicId: string | undefined;
-  selectedPlaylist: any | undefined;
+  selectedPlaylist: Playlist | undefined;
 }) => {
   const { state, ...actions } = useMusicsContext();
   const { state: playlistState, fetchPlaylists } = usePlaylistsContext();

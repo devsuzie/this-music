@@ -273,15 +273,15 @@ const TextArea = styled.textarea`
 type FormData = {
   musicId: string;
   playlist?: Playlist;
-  date?: any;
+  date?: Date | undefined;
   text: string;
 };
 
 interface OptionProps {
   playlist: Playlist;
   children: ReactNode;
-  setPlaylist: any;
-  setOpen: any;
+  setPlaylist: (palylist: Playlist) => void;
+  setOpen: (arg0: boolean) => void;
 }
 
 const Option: React.FC<OptionProps> = ({

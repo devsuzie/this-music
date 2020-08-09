@@ -172,7 +172,7 @@ const SelectInput = styled.input``;
 const StyledPlaylistItem = styled.span``;
 
 interface MusicProps {
-  selectedPlaylist?: any;
+  selectedPlaylist?: Playlist;
   musicId?: string;
   children: ReactNode;
 }
