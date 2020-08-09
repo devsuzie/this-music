@@ -76,7 +76,7 @@ const Button = styled.button`
 const Container = styled.div`
   margin: 0 auto;
   position: relative;
-  width: 1000px;
+  width: 1300px;
   font-family: ${theme.fonts.avenir}, sans-serif;
   font-size: 16px;
   padding: 50px 0;
