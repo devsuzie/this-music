@@ -24,7 +24,7 @@ enum ACTION_TYPES {
 
 type Action =
   | { type: ACTION_TYPES.CLEAR }
-  | { type: ACTION_TYPES.FETCH_MUSIC; musics: SearchedMusic[] }
+  | { type: ACTION_TYPES.FETCH_MUSIC; searchedMusics: SearchedMusic[] }
   | { type: ACTION_TYPES.SET_QUERY; query: Query };
 
 type Query = {
@@ -32,12 +32,12 @@ type Query = {
 };
 
 interface State {
-  musics: SearchedMusic[];
+  searchedMusics: SearchedMusic[];
   query: Query;
 }
 
 const INITIAL_STATE: State = {
-  musics: [],
+  searchedMusics: [],
   query: {
     music: "",
   },
@@ -53,7 +53,7 @@ const reducer: Reducer<State, Action> = (
     case ACTION_TYPES.FETCH_MUSIC:
       return {
         ...prevState,
-        musics: action.musics,
+        searchedMusics: action.searchedMusics,
       };
     case ACTION_TYPES.SET_QUERY:
       return {
@@ -101,11 +101,11 @@ export const useSearchMusicContext = () => {
           },
           credentials: "omit",
         });
-        const musics = await response.json();
+        const searchedMusics = await response.json();
 
         dispatch({
           type: ACTION_TYPES.FETCH_MUSIC,
-          musics,
+          searchedMusics,
         });
       } catch (e) {
         throw await e.response.json();

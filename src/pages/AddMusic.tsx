@@ -379,7 +379,7 @@ export default () => {
   });
 
   const onSubmit = handleSubmit(({ text, musicId, date }) => {
-    state.musics.forEach((searchedMusic) => {
+    state.searchedMusics.forEach((searchedMusic) => {
       if (searchedMusic.id === musicId) {
         const musics = {
           id: uuidv4(),
@@ -431,7 +431,7 @@ export default () => {
                   </SpinnerContainer>
                 )}
                 <SearchedMusicUl>
-                  {state.musics.map((searchedMusic) => (
+                  {state.searchedMusics.map((searchedMusic) => (
                     <SearchedMusicLi key={searchedMusic.id}>
                       <Label htmlFor={searchedMusic.id}>
                         <AlbumCover src={searchedMusic.albumCover} />
