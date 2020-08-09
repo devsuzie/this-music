@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import styled from "@emotion/styled";
 import { v4 as uuidv4 } from "uuid";
 
-import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { formatDate, getDateByTimeZone } from "@/lib/date";
+import CreatePlaylistModal from "@/Modals/CreatePlaylistModal";
 import { Playlist } from "@/store/Playlists";
 import {
   useLoadingStore,
@@ -34,103 +34,26 @@ const theme = {
   },
 };
 
-const StyledLink = styled(Link)`
-  color: ${theme.colors.highlight};
-  &:hover {
-    color: ${theme.colors.highlight};
-  }
-`;
-
-const SpinnerContainer = styled.div`
-  text-align: center;
-  margin: 20px 0;
-`;
-
-const Container = styled.div`
-  margin: 0 auto;
-  position: relative;
-  width: 1000px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
-  font-size: 16px;
-  padding: 50px 0;
-`;
-
-const Logo = styled.h1`
-  font-family: ${theme.fonts.futura}, sans-serif;
-  font-size: 30px;
-  font-weight: bold;
-  color: ${theme.colors.highlight};
-  width: 350px;
-  margin: 0 0 50px 0;
-  display: inline-block;
-
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-`;
-
 const AddMusicWrap = styled.div`
   width: 600px;
   margin: 0 auto;
 `;
 
-const StepContainer = styled.div``;
-
-const StepTitle = styled.h2`
-  color: ${theme.colors.highlight};
-  font-size: 20px;
-  font-family: ${theme.fonts.futura}, sans-serif;
-  margin-bottom: 20px;
-`;
-
-const Step1 = styled.div`
-  background-color: ${theme.colors.primaryLight};
+const AddOption = styled.div`
   color: ${theme.colors.black};
-  padding: 20px 40px;
-  border-radius: 15px;
-  margin-bottom: 120px;
-`;
+  height: 60px;
+  line-height: 60px;
+  border-top: 1px solid ${theme.colors.active};
+  padding: 0 30px;
+  padding-left: 60px;
+  background: url(/assets/add-btn.png) no-repeat 5% 60%;
+  background-size: 35px 35px;
+  border-radius: 0 0 10px 10px;
+  margin-top: 10px;
 
-const SearchContainer = styled.div``;
-
-const InpuSearch = styled.input`
-  background-color: ${theme.colors.primaryDark};
-  color: ${theme.colors.white};
-  border: none;
-  line-height: 30px;
-  height: 30px;
-  border-radius: 10px;
-  padding: 0 15px;
-  width: calc(100% - 105px);
-  margin: 5px 10px 20px 0;
-  display: inline-block;
-
-  &:focus {
-    outline: none;
+  &: hover {
+    background-color: ${theme.colors.white};
   }
-`;
-
-const Button = styled.button`
-  color: ${theme.colors.highlight};
-  border: none;
-  background: none;
-  font-size: 16px;
-`;
-
-const SearchedMusicUl = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  max-height: 350px;
-  overflow: scroll;
-  padding-right: 15px;
-`;
-
-const SearchedMusicLi = styled.li`
-  margin: 10px 0 25px 0;
-  width: 100%;
-  overflow: auto;
 `;
 
 const AlbumCover = styled.img`
@@ -159,33 +82,20 @@ const AlbumInfoEl = styled.span`
   white-space: nowrap;
 `;
 
-const SelectInput = styled.input``;
-
-let SelectButton = styled.span``;
-
-const Step2 = styled.div`
-  margin-bottom: 120px;
-`;
-
-const SelectBoxWrap = styled.div`
-  position: relative;
-`;
-
-const SelectBox = styled.div`
+const Button = styled.button`
+  color: ${theme.colors.highlight};
   border: none;
-  background: url(/assets/down-arrow.png) no-repeat 95% 60%;
-  background-size: 16px 13px;
-  background-color: ${theme.colors.primaryDark};
-  color: ${theme.colors.white};
+  background: none;
   font-size: 16px;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  position: relative;
+  width: 1000px;
   font-family: ${theme.fonts.avenir}, sans-serif;
-  padding: 5px 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  width: calc(80% - 40px);
-  text-indent: 1px;
-  text-overflow: "";
-  cursor: pointer;
+  font-size: 16px;
+  padding: 50px 0;
 `;
 
 const DatePicker = styled.input`
@@ -204,25 +114,52 @@ const DatePicker = styled.input`
   }
 `;
 
-const Step3 = styled.div`
-  margin-bottom: 120px;
-`;
-
-const TextArea = styled.textarea`
-  resize: none;
-  width: 100%;
+const InpuSearch = styled.input`
+  background-color: ${theme.colors.primaryDark};
+  color: ${theme.colors.white};
   border: none;
-  background-color: ${theme.colors.primaryLight};
-  color: ${theme.colors.black};
-  border-radius: 30px;
-  padding: 25px 30px;
-  font-size: 16px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
-  line-height: 1.6em;
+  line-height: 30px;
+  height: 30px;
+  border-radius: 10px;
+  padding: 0 15px;
+  width: calc(100% - 105px);
+  margin: 5px 10px 20px 0;
+  display: inline-block;
 
   &:focus {
     outline: none;
   }
+`;
+
+const Label = styled.label`
+  position: relative;
+  width: 100%;
+`;
+
+const Logo = styled.h1`
+  font-family: ${theme.fonts.futura}, sans-serif;
+  font-size: 30px;
+  font-weight: bold;
+  color: ${theme.colors.highlight};
+  width: 350px;
+  margin: 0 0 50px 0;
+  display: inline-block;
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+const OptionContainer = styled.div`
+  background-color: #f2efef;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  padding-top: 15px;
+  top: 45px;
+  width: calc(80% - 40px);
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
 `;
 
 const SaveButton = styled.button`
@@ -242,27 +179,83 @@ const SaveButton = styled.button`
   }
 `;
 
-const Label = styled.label`
-  position: relative;
+const SearchContainer = styled.div``;
+
+const SearchedMusicLi = styled.li`
+  margin: 10px 0 25px 0;
   width: 100%;
+  overflow: auto;
 `;
 
-type FormData = {
-  musicId: string;
-  playlist?: Playlist;
-  date?: any;
-  text: string;
-};
+const SearchedMusicUl = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 350px;
+  overflow: scroll;
+  padding-right: 15px;
+`;
 
-const OptionContainer = styled.div`
-  background-color: #f2efef;
+const SelectBox = styled.div`
+  border: none;
+  background: url(/assets/down-arrow.png) no-repeat 95% 60%;
+  background-size: 16px 13px;
+  background-color: ${theme.colors.primaryDark};
+  color: ${theme.colors.white};
+  font-size: 16px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
+  padding: 5px 20px;
   border-radius: 10px;
-  cursor: pointer;
-  position: absolute;
-  padding-top: 15px;
-  top: 45px;
+  margin-bottom: 20px;
   width: calc(80% - 40px);
-  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
+  text-indent: 1px;
+  text-overflow: "";
+  cursor: pointer;
+`;
+
+const SelectBoxWrap = styled.div`
+  position: relative;
+`;
+
+let SelectButton = styled.span``;
+
+const SelectInput = styled.input``;
+
+const SpinnerContainer = styled.div`
+  text-align: center;
+  margin: 20px 0;
+`;
+
+const StepContainer = styled.div``;
+
+const Step1 = styled.div`
+  background-color: ${theme.colors.primaryLight};
+  color: ${theme.colors.black};
+  padding: 20px 40px;
+  border-radius: 15px;
+  margin-bottom: 120px;
+`;
+
+const Step2 = styled.div`
+  margin-bottom: 120px;
+`;
+
+const Step3 = styled.div`
+  margin-bottom: 120px;
+`;
+
+const StepTitle = styled.h2`
+  color: ${theme.colors.highlight};
+  font-size: 20px;
+  font-family: ${theme.fonts.futura}, sans-serif;
+  margin-bottom: 20px;
+`;
+
+const StyledLink = styled(Link)`
+  color: ${theme.colors.highlight};
+  &:hover {
+    color: ${theme.colors.highlight};
+  }
 `;
 
 const StyledOption = styled.div`
@@ -276,22 +269,29 @@ const StyledOption = styled.div`
   }
 `;
 
-const AddOption = styled.div`
+const TextArea = styled.textarea`
+  resize: none;
+  width: 100%;
+  border: none;
+  background-color: ${theme.colors.primaryLight};
   color: ${theme.colors.black};
-  height: 60px;
-  line-height: 60px;
-  border-top: 1px solid ${theme.colors.active};
-  padding: 0 30px;
-  padding-left: 60px;
-  background: url(/assets/add-btn.png) no-repeat 5% 60%;
-  background-size: 35px 35px;
-  border-radius: 0 0 10px 10px;
-  margin-top: 10px;
+  border-radius: 30px;
+  padding: 25px 30px;
+  font-size: 16px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
+  line-height: 1.6em;
 
-  &: hover {
-    background-color: ${theme.colors.white};
+  &:focus {
+    outline: none;
   }
 `;
+
+type FormData = {
+  musicId: string;
+  playlist?: Playlist;
+  date?: any;
+  text: string;
+};
 
 interface OptionProps {
   playlist: Playlist;

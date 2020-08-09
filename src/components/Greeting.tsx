@@ -46,14 +46,6 @@ const Container = styled.div`
   font-size: 20px;
 `;
 
-const Paragraph = styled.p`
-  margin: 20px 0 60px;
-  color: ${theme.colors.active};
-  font-weight: bold;
-  letter-spacing: 0.03em;
-  flex: 1;
-`;
-
 const LinkButton = styled(Link)`
   border: none;
   background-color: ${theme.colors.highlight};
@@ -78,6 +70,14 @@ const MusicIcon = styled.img`
   position: relative;
   flex: 1;
   place-self: center;
+`;
+
+const Paragraph = styled.p`
+  margin: 20px 0 60px;
+  color: ${theme.colors.active};
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  flex: 1;
 `;
 
 export default () => {

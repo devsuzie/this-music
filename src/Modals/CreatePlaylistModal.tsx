@@ -27,10 +27,12 @@ const theme = {
   },
 };
 
-const Title = styled.h3`
-  font-family: ${theme.fonts.futura};
-  font-weight: bold;
+const Button = styled.button`
   color: ${theme.colors.primary};
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
 `;
 
 const CloseButton = styled.button`
@@ -52,24 +54,6 @@ const CloseButton = styled.button`
   }
 `;
 
-const StyledModal = styled(Modal)`
-  background-color: rgba(0, 0, 0, 0.35);
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding: 40px;
-  padding-bottom: 20px;
-  background-color: ${theme.colors.highlight};
-  border-radius: 30px 30px 0 0;
-  border-bottom: none;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding: 30px 40px 60px;
-  background-color: ${theme.colors.highlight};
-  border-radius: 0 0 30px 30px;
-`;
-
 const Input = styled.input`
   border: none;
   border-radius: 10px;
@@ -88,12 +72,28 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
+const StyledModal = styled(Modal)`
+  background-color: rgba(0, 0, 0, 0.35);
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding: 30px 40px 60px;
+  background-color: ${theme.colors.highlight};
+  border-radius: 0 0 30px 30px;
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding: 40px;
+  padding-bottom: 20px;
+  background-color: ${theme.colors.highlight};
+  border-radius: 30px 30px 0 0;
+  border-bottom: none;
+`;
+
+const Title = styled.h3`
+  font-family: ${theme.fonts.futura};
+  font-weight: bold;
   color: ${theme.colors.primary};
-  border: none;
-  background: none;
-  font-size: 16px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
 `;
 
 export default () => {

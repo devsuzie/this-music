@@ -24,12 +24,6 @@ const theme = {
   },
 };
 
-const Title = styled.h3`
-  font-family: ${theme.fonts.futura};
-  font-weight: bold;
-  color: ${theme.colors.highlight};
-`;
-
 const CloseButton = styled.button`
   position: absolute;
   top: 40px;
@@ -46,6 +40,83 @@ const CloseButton = styled.button`
 
   &:focus {
     outline: none;
+  }
+`;
+
+const DatePicker = styled.input`
+  color: ${theme.colors.white};
+  font-size: 16px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
+  background-color: ${theme.colors.primaryDark};
+  border: none;
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin-bottom: 20px;
+
+  ::-webkit-calendar-picker-indicator {
+    background: ${theme.colors.primaryDark};
+    background: url(/assets/down-arrow.png) no-repeat 95% 60%;
+    background-size: 16px 13px;
+  }
+`;
+
+const OptionContainer = styled.div`
+  background-color: #f2efef;
+  border-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  padding: 15px 0;
+  top: 45px;
+  width: calc(80% - 40px);
+  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
+`;
+
+const SelectBox = styled.div`
+  border: none;
+  background: url(/assets/down-arrow.png) no-repeat 95% 60%;
+  background-size: 16px 13px;
+  background-color: ${theme.colors.primaryDark};
+  color: ${theme.colors.white};
+  font-size: 16px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
+  padding: 5px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: calc(80% - 40px);
+  text-indent: 1px;
+  text-overflow: "";
+  cursor: pointer;
+`;
+
+const SelectBoxWrap = styled.div`
+  position: relative;
+`;
+
+const StyledModal = styled(Modal)`
+  background-color: rgba(0, 0, 0, 0.35);
+`;
+
+const StyledModalBody = styled(ModalBody)`
+  padding: 20px 40px 60px;
+  background-color: ${theme.colors.primary};
+  border-radius: 0 0 30px 30px;
+`;
+
+const StyledModalHeader = styled(ModalHeader)`
+  padding: 40px;
+  padding-bottom: 20px;
+  background-color: ${theme.colors.primary};
+  border-radius: 30px 30px 0 0;
+`;
+
+const StyledOption = styled.div`
+  color: ${theme.colors.black};
+  height: 40px;
+  line-height: 40px;
+  padding: 0 30px;
+
+  &: hover {
+    color: ${theme.colors.active};
   }
 `;
 
@@ -68,61 +139,6 @@ const SubmitButton = styled.button`
   }
 `;
 
-const StyledModal = styled(Modal)`
-  background-color: rgba(0, 0, 0, 0.35);
-`;
-
-const StyledModalHeader = styled(ModalHeader)`
-  padding: 40px;
-  padding-bottom: 20px;
-  background-color: ${theme.colors.primary};
-  border-radius: 30px 30px 0 0;
-`;
-
-const StyledModalBody = styled(ModalBody)`
-  padding: 20px 40px 60px;
-  background-color: ${theme.colors.primary};
-  border-radius: 0 0 30px 30px;
-`;
-
-const SelectBoxWrap = styled.div`
-  position: relative;
-`;
-
-const SelectBox = styled.div`
-  border: none;
-  background: url(/assets/down-arrow.png) no-repeat 95% 60%;
-  background-size: 16px 13px;
-  background-color: ${theme.colors.primaryDark};
-  color: ${theme.colors.white};
-  font-size: 16px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
-  padding: 5px 20px;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  width: calc(80% - 40px);
-  text-indent: 1px;
-  text-overflow: "";
-  cursor: pointer;
-`;
-
-const DatePicker = styled.input`
-  color: ${theme.colors.white};
-  font-size: 16px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
-  background-color: ${theme.colors.primaryDark};
-  border: none;
-  border-radius: 10px;
-  padding: 5px 20px;
-  margin-bottom: 20px;
-
-  ::-webkit-calendar-picker-indicator {
-    background: ${theme.colors.primaryDark};
-    background: url(/assets/down-arrow.png) no-repeat 95% 60%;
-    background-size: 16px 13px;
-  }
-`;
-
 const TextArea = styled.textarea`
   resize: none;
   width: 100%;
@@ -140,26 +156,10 @@ const TextArea = styled.textarea`
   }
 `;
 
-const OptionContainer = styled.div`
-  background-color: #f2efef;
-  border-radius: 10px;
-  cursor: pointer;
-  position: absolute;
-  padding: 15px 0;
-  top: 45px;
-  width: calc(80% - 40px);
-  box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.2);
-`;
-
-const StyledOption = styled.div`
-  color: ${theme.colors.black};
-  height: 40px;
-  line-height: 40px;
-  padding: 0 30px;
-
-  &: hover {
-    color: ${theme.colors.active};
-  }
+const Title = styled.h3`
+  font-family: ${theme.fonts.futura};
+  font-weight: bold;
+  color: ${theme.colors.highlight};
 `;
 
 type FormData = {

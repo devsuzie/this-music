@@ -40,6 +40,69 @@ const theme: Theme = {
   },
 };
 
+const AddLink = styled(Link)`
+  font-family: ${theme.fonts.futura}, sans-serif;
+  background-color: ${theme.colors.highlight};
+  color: ${theme.colors.white};
+  border-radius: 15px;
+  display: inline-block;
+  padding: 0 25px;
+  margin: 5px 0 50px 0;
+  height: 30px;
+  line-height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-decoration: none;
+
+  &:hover {
+    color: ${theme.colors.white};
+  }
+`;
+
+const AlbumCover = styled.img`
+  width: 130px;
+  height: 130px;
+  position: absolute;
+  left: 0;
+`;
+
+const Container = styled.div`
+  margin: 0 auto;
+  position: relative;
+  max-width: 1300px;
+  font-family: ${theme.fonts.avenir}, sans-serif;
+  font-size: 16px;
+  padding: 50px 0;
+`;
+
+const Date = styled.span`
+  font-weight: bold;
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+`;
+
+const Label = styled.label`
+  position: relative;
+  width: 100%;
+  margin: 0;
+`;
+
+const DetailContainer = styled.div`
+  width: calc(100% - 150px);
+  margin-left: 20px;
+  float: right;
+  height: 130px;
+  position: relative;
+`;
+
+const DetailEl = styled.span`
+  font-size: 20px;
+  font-weight: bold;
+  display: block;
+`;
+
 const Logo = styled.h1`
   font-family: ${theme.fonts.futura}, sans-serif;
   font-size: 30px;
@@ -53,54 +116,6 @@ const Logo = styled.h1`
     text-decoration: underline;
     cursor: pointer;
   }
-`;
-
-const Container = styled.div`
-  margin: 0 auto;
-  position: relative;
-  max-width: 1300px;
-  font-family: ${theme.fonts.avenir}, sans-serif;
-  font-size: 16px;
-  padding: 50px 0;
-`;
-
-const PlayListContainer = styled.div`
-  width: 350px;
-  position: absolute;
-  left: 0;
-`;
-
-const PlayListTitle = styled.h2`
-  color: ${theme.colors.highlight};
-  font-style: italic;
-  font-size: 20px;
-  font-weight: 200;
-  width: calc(100% - 30px);
-  border-bottom: 1px solid ${theme.colors.highlight};
-  padding: 5px;
-  margin: 0 0 15px 0;
-`;
-
-const PlayListUl = styled.ul`
-  margin: 0;
-  padding: 0;
-  list-style: none;
-`;
-
-const PlaylistLi = styled.li`
-  display: block;
-  color: ${theme.colors.white};
-  font-weight: 100;
-`;
-
-const StyledPlaylistItem = styled.span``;
-
-const SelectInput = styled.input``;
-
-const Label = styled.label`
-  position: relative;
-  width: 100%;
-  margin: 0;
 `;
 
 const MainContainer = styled.div`
@@ -139,63 +154,48 @@ const MusicCardLi = styled.li`
   }
 `;
 
+const MusicDesc = styled.p`
+  margin-bottom: 0;
+`;
+
 const MusicInfo = styled.div`
   position: relative;
   height: 130px;
   margin-bottom: 20px;
 `;
 
-const AlbumCover = styled.img`
-  width: 130px;
-  height: 130px;
+const PlayListContainer = styled.div`
+  width: 350px;
   position: absolute;
   left: 0;
 `;
 
-const DetailContainer = styled.div`
-  width: calc(100% - 150px);
-  margin-left: 20px;
-  float: right;
-  height: 130px;
-  position: relative;
-`;
-
-const DetailEl = styled.span`
-  font-size: 20px;
-  font-weight: bold;
+const PlaylistLi = styled.li`
   display: block;
-`;
-
-const Date = styled.span`
-  font-weight: bold;
-  font-size: 13px;
-  position: absolute;
-  bottom: 0;
-`;
-
-const MusicDesc = styled.p`
-  margin-bottom: 0;
-`;
-
-const AddLink = styled(Link)`
-  font-family: ${theme.fonts.futura}, sans-serif;
-  background-color: ${theme.colors.highlight};
   color: ${theme.colors.white};
-  border-radius: 15px;
-  display: inline-block;
-  padding: 0 25px;
-  margin: 5px 0 50px 0;
-  height: 30px;
-  line-height: 30px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  text-decoration: none;
-
-  &:hover {
-    color: ${theme.colors.white};
-  }
+  font-weight: 100;
 `;
+
+const PlayListTitle = styled.h2`
+  color: ${theme.colors.highlight};
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 200;
+  width: calc(100% - 30px);
+  border-bottom: 1px solid ${theme.colors.highlight};
+  padding: 5px;
+  margin: 0 0 15px 0;
+`;
+
+const PlaylistUl = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+const SelectInput = styled.input``;
+
+const StyledPlaylistItem = styled.span``;
 
 interface MusicProps {
   selectedPlaylist?: any;
@@ -290,7 +290,7 @@ export default () => {
           <>
             <PlayListContainer>
               <PlayListTitle>Playlist</PlayListTitle>
-              <PlayListUl>
+              <PlaylistUl>
                 <PlaylistLi key="0">
                   <Label htmlFor="0">
                     <SelectInput
@@ -325,7 +325,7 @@ export default () => {
                       </Label>
                     </PlaylistLi>
                   ))}
-              </PlayListUl>
+              </PlaylistUl>
             </PlayListContainer>
             <MainContainer>
               <MusicCardUl>
