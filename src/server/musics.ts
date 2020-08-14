@@ -12,18 +12,11 @@ export const create = (music: Music) => {
 export const fetchAll = (playlist: Playlist) => {
   const response = localStorage.getItem("musics");
   const musics = response && JSON.parse(response);
-  const selectedPlaylistMusics: Music[] = [];
 
   if (playlist.id === "0") {
     return musics;
   } else {
-    musics.filter((m: Music) => {
-      if (m.playlist && m.playlist.id === playlist.id) {
-        selectedPlaylistMusics.push(m);
-      }
-    });
-
-    return selectedPlaylistMusics;
+    return musics.filter((m: Music) => m.playlist?.id === playlist.id);
   }
 };
 
