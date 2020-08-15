@@ -256,10 +256,6 @@ export default () => {
     [playlistSate.playlists, INITIAL_STATE]
   );
 
-  useEffect(() => {
-    console.log(state.musics);
-  }, [state.musics]);
-
   return (
     <Container>
       <Logo onClick={handleClickLogo}>this.music</Logo>

@@ -365,7 +365,7 @@ export default () => {
   const onSubmit = handleSubmit(({ text, musicId, date }) => {
     state.searchedMusics.forEach((searchedMusic) => {
       if (searchedMusic.id === musicId) {
-        const musics = {
+        const music = {
           id: uuidv4(),
           music: {
             albumCover: searchedMusic.albumCover,
@@ -382,7 +382,7 @@ export default () => {
           text,
         };
 
-        musicsActions.create(musics);
+        musicsActions.create(music);
       }
     });
     musicsActions.fetchAll("");
