@@ -98,8 +98,7 @@ export const useSearchMusicContext = () => {
         const response = await ky.get("http://3.34.97.67:3000/search", {
           searchParams: {
             query,
-          },
-          credentials: "omit",
+          }
         });
         const searchedMusics = await response.json();
 
