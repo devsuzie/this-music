@@ -359,7 +359,7 @@ export default () => {
 
   const [playlist, setPlaylist] = useState<Playlist>({
     id: "0",
-    name: "selectPlaylist",
+    name: "select playlist",
   });
 
   const onSubmit = handleSubmit(({ text, musicId, date }) => {
