@@ -437,7 +437,7 @@ export default () => {
                 ))}
               </SearchedMusicUl>
             </Step1>
-            <StepTitle>2. Sélect a Category & Date</StepTitle>
+            <StepTitle>2. Sélect a Playlist & Date</StepTitle>
             <Step2>
               <SelectBoxWrap>
                 <SelectBox onClick={handleClickSelectBox}>
