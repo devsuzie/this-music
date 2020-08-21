@@ -102,7 +102,7 @@ const MusicCardUl = styled.ul`
   overflow: auto;
 `;
 
-const MusicCardLi = styled.li`
+const StyledMusicLi = styled.li`
   background-color: ${theme.colors.primaryLight};
   color: ${theme.colors.black};
   padding: 30px;
@@ -199,7 +199,7 @@ const MusicLi: React.FC<MusicProps> = ({
     );
   };
 
-  return <MusicCardLi onClick={handleClick}>{children}</MusicCardLi>;
+  return <StyledMusicLi onClick={handleClick}>{children}</StyledMusicLi>;
 };
 
 const PlaylistItem: React.FC<PlaylistProps> = ({ playlist, children }) => {
