@@ -1,4 +1,4 @@
-# React Music App
+# this.music
 ![this.music](/public/assets/intro.jpg)
 
 ## :earth_americas: Live Demo
