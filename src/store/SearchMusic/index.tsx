@@ -95,7 +95,7 @@ export const useSearchMusicContext = () => {
   const fetchMusic = useCallback(
     async ({ query }) => {
       try {
-        const response = await ky.get("http://3.34.97.67:3000/search", {
+        const response = await ky.get("https://api-this-music.suzie.world/search", {
           searchParams: {
             query,
           },
