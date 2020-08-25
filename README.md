@@ -9,4 +9,4 @@
 
 ## :open_file_folder: Used Library
 - [Ky](https://github.com/sindresorhus/ky) for Fetch API
-- [UUID](https://www.npmjs.com/package/uuid) for give each note a unique ID
+- [UUID](https://www.npmjs.com/package/uuid) for give a unique ID
